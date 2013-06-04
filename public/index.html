@@ -25,14 +25,9 @@ License along with SOS Pomoc application.  If not, see
     <title>SOS Pomoc (Powered by Hearth)</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link href='http://fonts.googleapis.com/css?family=Signika:300,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <!-- build:css styles/app.css -->
     <link rel="stylesheet" href="styles/app.css">
-    <!-- endbuild -->
-    <!-- build:js scripts/modernizr.js -->
     <script src="scripts/vendor/custom.modernizr.js"></script>
-    <!-- endbuild -->
   </head>
   <body ng-app="sosPomocApp">
     <div class="logo"></div>
@@ -90,9 +85,7 @@ License along with SOS Pomoc application.  If not, see
     </div>
 
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=false"></script>
-    <!-- build:js scripts/infobox.js -->
     <script src="scripts/vendor/infobox.js"></script>
-    <!-- endbuild -->
 
     <script src="components/angular/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
@@ -100,9 +93,11 @@ License along with SOS Pomoc application.  If not, see
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
 
     <script>
-      document.write(
-        '<script src=' + ('__proto__' in {} ? 'scripts/vendor/zepto' : 'scripts/vendor/jquery') + '.js><\/script>'
-      )
+      if ('__proto__' in {}) {
+        document.write('<script src="scripts/vendor/zepto.js"></script>');
+      } else {
+        document.write('<script src="scripts/vendor/jquery.js"></script>');
+      }
     </script>
     <!-- build:js scripts/foundation.js -->
     <script src="scripts/foundation/foundation.js"></script>

@@ -114,9 +114,6 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/scripts/app.js': [
             '<%= yeoman.public %>/scripts/{,*/}*.js',
             '!<%= yeoman.public %>/scripts/{vendor,foundation}/*.js'
-          ],
-          '<%= yeoman.dist %>/scripts/foundation.js': [
-            '<%= yeoman.public %>/scripts/foundation/foundation.*.js'
           ]
         }
       }
@@ -129,6 +126,7 @@ module.exports = function (grunt) {
     },
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      js: ['<%= yeoman.dist %>/scripts/{,*/}*.js'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
         dirs: ['<%= yeoman.dist %>']
@@ -204,7 +202,6 @@ module.exports = function (grunt) {
         files: {
           src: [
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
-            '!<%= yeoman.dist %>/scripts/vendor/{zepto,jquery}.js',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= yeoman.dist %>/styles/fonts/*'
@@ -224,7 +221,7 @@ module.exports = function (grunt) {
             'components/**/*',
             'images/{,*/}*.{gif,webp}',
             'styles/fonts/*',
-            'scripts/vendor/{zepto,jquery}.js'
+            'scripts/vendor/*.js'
           ]
         }]
       }
