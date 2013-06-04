@@ -1,0 +1,142 @@
+<!--
+This file is part of SOS Pomoc application.
+
+SOS Pomoc application is free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+SOS Pomoc application is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public
+License along with SOS Pomoc application.  If not, see
+<http://www.gnu.org/licenses/>.
+-->
+
+<!doctype html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="cs" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="cs" > <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>SOS Pomoc (Powered by Hearth)</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href='http://fonts.googleapis.com/css?family=Signika:300,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <!-- build:css styles/app.css -->
+    <link rel="stylesheet" href="styles/app.css">
+    <!-- endbuild -->
+    <!-- build:js scripts/modernizr.js -->
+    <script src="scripts/vendor/custom.modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body ng-app="sosPomocApp">
+    <div class="logo"></div>
+    <form ng-controller="FilterCtrl" class="custom">
+      <ul class="filter">
+        <li ng-repeat="category in categories"
+            ng-click="toggle(category)">
+          <label class="tag" for="tag-{{ category.value }}"><input type="checkbox" id="tag-{{ category.value }}" ng-checked="category.checked" style="display: none;"><span class="custom checkbox"></span> {{ category.name }}</label>
+        </li>
+      </ul>
+    </form>
+    <div ng-controller="MapCtrl"
+         ng-init="initMap()"
+         id="map"></div>
+    <div ng-controller="AdCreationCtrl">
+      <a ng-click="showForm = !showForm"
+         class="toggle-form">{{ toggleTitle }}</a>
+      <form ng-show="showForm" class="creation custom">
+        <fieldset>
+          <legend>Potřebuji pomoct</legend>
+          <div class="row">
+            <div class="large-6 columns">
+              <label>Jméno a příjmení</label>
+              <input type="text" ng-model="name">
+            </div>
+            <div class="large-6 columns">
+              <label>Email</label>
+              <input type="email" ng-model="email">
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <label>Místo</label>
+              <input type="text" ng-model="place">
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <label>Popis</label>
+              <textarea ng-model="description"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <ul class="categories">
+                <li ng-repeat="category in categories"
+                    ng-click="toggle(category)">
+                  <label class="tag" for="tag-new-{{ category.value }}"><input type="checkbox" id="tag-new-{{ category.value }}" ng-checked="category.checked" style="display: none;"><span class="custom checkbox"></span> {{ category.name }}</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=false"></script>
+    <!-- build:js scripts/infobox.js -->
+    <script src="scripts/vendor/infobox.js"></script>
+    <!-- endbuild -->
+
+    <script src="components/angular/angular.js"></script>
+    <script src="components/angular-resource/angular-resource.js"></script>
+    <script src="components/angular-cookies/angular-cookies.js"></script>
+    <script src="components/angular-sanitize/angular-sanitize.js"></script>
+
+    <script>
+      document.write(
+        '<script src=' + ('__proto__' in {} ? 'scripts/vendor/zepto' : 'scripts/vendor/jquery') + '.js><\/script>'
+      )
+    </script>
+    <!-- build:js scripts/foundation.js -->
+    <script src="scripts/foundation/foundation.js"></script>
+    <script src="scripts/foundation/foundation.alerts.js"></script>
+    <script src="scripts/foundation/foundation.clearing.js"></script>
+    <script src="scripts/foundation/foundation.cookie.js"></script>
+    <script src="scripts/foundation/foundation.dropdown.js"></script>
+    <script src="scripts/foundation/foundation.forms.js"></script>
+    <script src="scripts/foundation/foundation.interchange.js"></script>
+    <script src="scripts/foundation/foundation.joyride.js"></script>
+    <script src="scripts/foundation/foundation.magellan.js"></script>
+    <script src="scripts/foundation/foundation.orbit.js"></script>
+    <script src="scripts/foundation/foundation.placeholder.js"></script>
+    <script src="scripts/foundation/foundation.reveal.js"></script>
+    <script src="scripts/foundation/foundation.section.js"></script>
+    <script src="scripts/foundation/foundation.tooltips.js"></script>
+    <script src="scripts/foundation/foundation.topbar.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/app.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/ads_service.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/map.js"></script>
+    <script src="scripts/controllers/filter.js"></script>
+    <script src="scripts/controllers/ad_creation.js"></script>
+    <!-- endbuild -->
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!--script>
+      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script-->
+  </body>
+</html>

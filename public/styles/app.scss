@@ -1,0 +1,149 @@
+/*
+This file is part of SOS Pomoc application.
+
+SOS Pomoc application is free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+SOS Pomoc application is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public
+License along with SOS Pomoc application.  If not, see
+<http://www.gnu.org/licenses/>.
+*/
+
+@import "settings";
+@import "normalize";
+@import "foundation";
+
+// @import "foundation/components/global"; // *always required
+// @import "foundation/components/grid";
+// @import "foundation/components/visibility";
+// @import "foundation/components/block-grid";
+// @import "foundation/components/type";
+// @import "foundation/components/buttons";
+// @import "foundation/components/forms"; // *requires components/buttons
+// @import "foundation/components/custom-forms"; // *requires components/buttons, components/forms
+// @import "foundation/components/button-groups"; // *requires components/buttons
+// @import "foundation/components/dropdown-buttons"; // *requires components/buttons
+// @import "foundation/components/split-buttons"; // *requires components/buttons
+// @import "foundation/components/flex-video";
+// @import "foundation/components/section";
+// @import "foundation/components/top-bar";  // *requires components/grid
+// @import "foundation/components/orbit";
+// @import "foundation/components/reveal";
+// @import "foundation/components/joyride";
+// @import "foundation/components/clearing";
+// @import "foundation/components/alert-boxes";
+// @import "foundation/components/breadcrumbs";
+// @import "foundation/components/keystrokes";
+// @import "foundation/components/labels";
+// @import "foundation/components/inline-lists";
+// @import "foundation/components/pagination";
+// @import "foundation/components/panels";
+// @import "foundation/components/pricing-tables";
+// @import "foundation/components/progress-bars";
+// @import "foundation/components/side-nav";
+// @import "foundation/components/sub-nav";
+// @import "foundation/components/switch";
+// @import "foundation/components/magellan";
+// @import "foundation/components/tables";
+// @import "foundation/components/thumbs";
+// @import "foundation/components/tooltips";
+// @import "foundation/components/dropdown";
+
+@import "compass/layout/stretching";
+@import "compass/reset";
+
+html, body, #map {
+  @include stretch;
+  display: block;
+}
+
+.logo, .filter {
+  position: absolute;
+  z-index: 1;
+}
+
+.logo {
+  top: 0;
+  left: 0;
+  background: url(/images/logo-gradient.png) no-repeat;
+  height: 400px;
+  width: 343px;
+}
+
+.filter {
+  @include button-group-container;
+  top: 120px;
+  left: 30px;
+}
+.tag {
+  $button-margin-bottom: 1px;
+  @include button;
+}
+
+form.custom .tag {
+  .custom.checkbox.checked::before {
+    content: none;
+  }
+
+  .custom.checkbox {
+    vertical-align: text-bottom;
+  }
+
+  .custom.checkbox {
+    background-repeat: no-repeat;
+    background-position: -35px;
+    background-image: url(/images/checkbox.png);
+  }
+
+  .custom.checkbox.checked {
+    background-position: 0;
+  }
+}
+
+.infoBox {
+  @include panel;
+  font-size: $h5-font-size;
+
+  .description {
+    @include stretch-y($panel-padding, 50px);
+  }
+
+  .contact {
+    @include stretch-y(150, $panel-padding);
+  }
+}
+
+.toggle-form {
+  @include stretch(auto, 50%, 0, 50%);
+  font-size: $h2-font-size;
+}
+.creation {
+  @include panel;
+  @include stretch-x(50%, 50%);
+  @include stretch-y(auto, $h2-font-size / 2);
+
+  $creation-width: 500px;
+
+  width: $creation-width;
+  margin-left: -$creation-width / 2;
+
+  legend {
+    font-size: $h3-font-size;
+  }
+
+  .categories {
+    @include button-group-container;
+
+    & > li {
+      @include button-group-style;
+      margin-left: 1px;
+    }
+  }
+}
