@@ -65,6 +65,11 @@ html, body, #map {
 
 #map {
   display: block;
+
+  //XXX necessary for Google Maps JavaScript API InfoWindow
+  img {
+    max-width: none;
+  }
 }
 
 #logo {
