@@ -40,7 +40,6 @@ AdsController.create = function () {
     var req = this.req
     var res = this.res
     item = new Ad(req.body);
-    console.log('saving')
     return item.save(function(err) {
         if (err) {
             res.send({

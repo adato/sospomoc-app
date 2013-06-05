@@ -52,7 +52,7 @@ License along with SOS Pomoc application.  If not, see
        class="toggle-form">{{ toggleTitle }}</a>
       <form ng-show="showForm" class="custom" name="createForm">
         <fieldset>
-            <legend>Potřebuji pomoct</legend>
+            <legend>Potřebuji pomoc</legend>
           <div class="row" style="color: green" ng-show="formSent">
               <div>Odesláno!</div>
           </div>
@@ -81,9 +81,10 @@ License along with SOS Pomoc application.  If not, see
             <div class="row">
                 <div class="large-12 columns">
                     <ul class="categories">
-                        <li ng-repeat="category in categories"
-                            ng-click="toggle(category)">
-                            <label class="tag" for="tag-new-{{ category.value }}"><input type="checkbox" id="tag-new-{{ category.value }}" ng-checked="category.checked" style="display: none;"><span class="custom checkbox"></span> {{ category.name }}</label>
+                        <li ng-repeat="category in newItem.categories" ng-click="toggleCategory($index)" ng-show="!category.checked">
+                            <label class="tag">
+                                <span class="custom checkbox"></span> {{ category.name }}
+                            </label>
                         </li>
                     </ul>
                 </div>

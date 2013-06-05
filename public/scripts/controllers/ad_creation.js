@@ -67,10 +67,11 @@ angular.module('sosPomocApp')
         $scope.newItem = {}
         $scope.asked = false
         $scope.showForm = false
-        $scope.categories = adsService.categories.map(function(category) {
+        $scope.allCategories = adsService.categories.map(function(category) {
             category.checked = false;
             return category;
         });
+        $scope.newItem.categories = angular.copy($scope.allCategories);
         $scope.initAutocomplete()
     }
 
@@ -84,13 +85,13 @@ angular.module('sosPomocApp')
     });
 
     $scope.submit = function() {
-        console.log($scope.newItem)
         if(!$scope.createForm.$invalid) {
             $scope.errors = []
             if(!$scope.newItem.location) {
                 $scope.errors.push({param: 'location', msg: "Lokalita je povinná položka."});
             }
             else {
+                $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })
                 Ad.create($scope.newItem, (function(data){
                     if(data.errors) {
                         $scope.errors.push("Odeslání se nezdařilo")
@@ -99,11 +100,15 @@ angular.module('sosPomocApp')
                         $scope.errors = [];
                         $scope.formSent = true;
                         $scope.newItem = {}
+                        $scope.newItem.categories = $scope.allCategories
                     }
-
                 }))
             }
         }
+    }
+
+    $scope.toggleCategory = function(index) {
+        $scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
     }
 
     $scope.init();
