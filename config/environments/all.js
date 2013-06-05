@@ -16,7 +16,7 @@ License along with SOS Pomoc application.  If not, see
 <http://www.gnu.org/licenses/>.
 */
 
-require('newrelic')
+//require('newrelic')
 
 var express = require('express')
   , cors = require('cors')
