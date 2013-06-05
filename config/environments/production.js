@@ -16,8 +16,17 @@ License along with SOS Pomoc application.  If not, see
 <http://www.gnu.org/licenses/>.
 */
 
-var express = require('express');
+var express = require('express')
+  , nodemailer = require('nodemailer');
 
 module.exports = function() {
+  this.mailer = nodemailer.createTransport('SMTP', {
+    service: 'Mandrill',
+    auth: {
+      user: process.env.MANDRILL_USERNAME,
+      pass: process.env.MANDRILL_APIKEY
+    }
+  });
+
   this.use(express.static(__dirname + '/../../dist'));
 }

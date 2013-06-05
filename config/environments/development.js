@@ -17,9 +17,12 @@ License along with SOS Pomoc application.  If not, see
 */
 
 var express = require('express')
+  , nodemailer = require('nodemailer')
   , connectLivereload = require('connect-livereload');
 
 module.exports = function() {
+  this.mailer = nodemailer.createTransport('sendmail');
+
   //XXX somehow this has to befor static middleware which is
   // completely opposite to connect-livereload documentation
   this.use(connectLivereload());

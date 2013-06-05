@@ -48,4 +48,15 @@ AdsController.create = function() {
     });
 }
 
+AdsController.update = function() {
+    var self = this;
+    self.res.send(501)
+}
+
+AdsController.delete = function() {
+    var self = this;
+    self.res.send(501)
+}
+
+
 module.exports = AdsController;
