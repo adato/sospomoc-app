@@ -40,9 +40,27 @@ module.exports = function (grunt) {
   grunt.initConfig({
     yeoman: yeomanConfig,
     watch: {
+      options: {
+        livereload: true,
+      },
       compass: {
         files: ['<%= yeoman.public %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass']
+        tasks: ['compass'],
+        options: {
+          livereload: false,
+        }
+      },
+      css: {
+        files: [
+          '<%= yeoman.public %>/styles/{,*/}*.css',
+          '.tmp/styles/{,*/}*.css'
+        ]
+      },
+      js: {
+        files: ['<%= yeoman.dist %>/styles/{,*/}*.js'],
+      },
+      html: {
+        files: ['<%= yeoman.public %>/index.html']
       }
     },
     connect: {

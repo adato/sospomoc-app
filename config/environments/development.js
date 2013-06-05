@@ -16,9 +16,13 @@ License along with SOS Pomoc application.  If not, see
 <http://www.gnu.org/licenses/>.
 */
 
-var express = require('express');
+var express = require('express')
+  , connectLivereload = require('connect-livereload');
 
 module.exports = function() {
+  //XXX somehow this has to befor static middleware which is
+  // completely opposite to connect-livereload documentation
+  this.use(connectLivereload());
   this.use(express.static(__dirname + '/../../public'));
   this.use(express.static(__dirname + '/../../.tmp'));
   this.use(express.errorHandler());
