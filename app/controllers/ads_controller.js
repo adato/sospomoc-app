@@ -36,10 +36,21 @@ AdsController.index = function () {
     });
 }
 
-
 AdsController.create = function () {
-    var self = this;
-    self.res.send(501)
+    var req = this.req
+    var res = this.res
+    item = new Ad(req.body);
+    console.log('saving')
+    return item.save(function(err) {
+        if (err) {
+            res.send({
+                errors: err
+            });
+        }
+        if (!err) {
+            return res.send(item);
+        }
+    });
 }
 
 AdsController.update = function () {
@@ -51,4 +62,6 @@ AdsController.delete = function () {
     var self = this;
     self.res.send(501)
 }
+
+
 module.exports = AdsController;

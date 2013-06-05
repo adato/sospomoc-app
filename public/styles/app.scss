@@ -96,26 +96,6 @@ html, body, #map {
   }
 }
 
-.tag {
-  $button-margin-bottom: 1px;
-  @include button;
-
-  .custom.checkbox.checked::before {
-    content: none;
-  }
-
-  .custom.checkbox {
-    background-repeat: no-repeat;
-    background-position: -35px;
-    background-image: url(/images/checkbox.png);
-    vertical-align: text-bottom;
-  }
-
-  .custom.checkbox.checked {
-    background-position: 0;
-  }
-}
-
 .infoBox {
   @include panel;
   font-size: $h5-font-size;
@@ -156,6 +136,28 @@ html, body, #map {
         @include button-group-style;
         margin-left: 1px;
       }
+    }
+  }
+}
+
+form.custom#filter, #creation form.custom {
+  .tag {
+    $button-margin-bottom: 1px;
+    @include button;
+
+    .custom.checkbox.checked::before {
+      content: none;
+    }
+
+    .custom.checkbox {
+      background-repeat: no-repeat;
+      background-position: -35px;
+      background-image: url(/images/checkbox.png);
+      vertical-align: text-bottom;
+    }
+
+    .custom.checkbox.checked {
+      background-position: 0;
     }
   }
 }
