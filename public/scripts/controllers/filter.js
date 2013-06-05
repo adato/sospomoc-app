@@ -22,7 +22,7 @@ angular.module('sosPomocApp')
   .controller('FilterCtrl', function ($scope, adsService) {
 
     function checkedCategories() {
-      $scope.categories
+      return $scope.categories
         .filter(function(category) {
           return category.checked;
         })
@@ -40,6 +40,7 @@ angular.module('sosPomocApp')
 
         categoryToToggle.checked = !categoryToToggle.checked;
         e.preventDefault();
+
         /*$scope.categories
         .filter(function (category) {
           return category === categoryToToggle;
@@ -50,8 +51,8 @@ angular.module('sosPomocApp')
           //})
         });
         */
-
-      adsService.setFilter({ categories: checkedCategories() });
+        var filter = { categories: checkedCategories() };
+        adsService.setFilter(filter);
     };
 
   });
