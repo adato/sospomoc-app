@@ -16,7 +16,8 @@
     "cors": "~1.0.1",
     "newrelic": "~0.9.20",
     "nodemailer": "~0.4.4",
-    "mongoose-validator": "~0.2.1"
+    "mongoose-validator": "~0.2.1",
+    "node-uuid": "~1.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

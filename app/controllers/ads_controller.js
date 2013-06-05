@@ -18,6 +18,7 @@
 
 var AdsController = new (require('locomotive').Controller)();
 var Ad = require('../models/ad');
+var uuid = require('node-uuid');
 
 AdsController.index = function () {
     var self = this;
@@ -39,14 +40,23 @@ AdsController.index = function () {
 AdsController.create = function () {
     var req = this.req
     var res = this.res
+<<<<<<< HEAD
     item = new Ad(req.body);
     return item.save(function(err) {
+=======
+    var item = new Ad(req.body);
+    console.log('saving')
+    // create fake token to trick validation :)
+    item.token = uuid.v4();
+    return item.save(function (err, item) {
+>>>>>>> Adding token
         if (err) {
             res.send({
                 errors: err
             });
         }
-        if (!err) {
+        else {
+            // send info email
             return res.send(item);
         }
     });

@@ -21,15 +21,14 @@ var validate = require('mongoose-validator').validate;
 var schema = require('mongoose').Schema({
     name: {type: String, required: true},
     email: {type: String, validate: validate('isEmail')},
-    categories: Array,
+    categories: {type: Array/*, required: true*/},
     description: String,
     location: {
-        place: {type: String, required: true},
-        lon: Number,
-        lat: Number
+        place: {type: String/*, required: true */},
+        lon: {type: Number, required: true },
+        lat: {type: Number, required: true }
     },
-    token: String
+    token: {type: String, required: true }
 });
-
 
 module.exports = require('mongoose').model('Ad', schema);
