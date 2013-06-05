@@ -61,45 +61,49 @@ License along with SOS Pomoc application.  If not, see
 
 html, body, #map {
   @include stretch;
+}
+
+#map {
   display: block;
 }
 
-.logo, .filter {
+#logo {
   position: absolute;
-  z-index: 1;
-}
-
-.logo {
   top: 0;
   left: 0;
+  z-index: 1;
   background: url(/images/logo-gradient.png) no-repeat;
   height: 400px;
   width: 343px;
+  pointer-events: none;
 }
 
-.filter {
+#filter {
   @include button-group-container;
+  position: absolute;
+  z-index: 2;
   top: 120px;
   left: 30px;
+  pointer-events: none;
+
+  .tag {
+    pointer-events: auto;
+  }
 }
+
 .tag {
   $button-margin-bottom: 1px;
   @include button;
-}
 
-form.custom .tag {
   .custom.checkbox.checked::before {
     content: none;
-  }
-
-  .custom.checkbox {
-    vertical-align: text-bottom;
   }
 
   .custom.checkbox {
     background-repeat: no-repeat;
     background-position: -35px;
     background-image: url(/images/checkbox.png);
+    vertical-align: text-bottom;
   }
 
   .custom.checkbox.checked {
@@ -120,30 +124,33 @@ form.custom .tag {
   }
 }
 
-.toggle-form {
-  @include stretch(auto, 50%, 0, 50%);
-  font-size: $h2-font-size;
-}
-.creation {
-  @include panel;
-  @include stretch-x(50%, 50%);
-  @include stretch-y(auto, $h2-font-size / 2);
-
-  $creation-width: 500px;
-
-  width: $creation-width;
-  margin-left: -$creation-width / 2;
-
-  legend {
-    font-size: $h3-font-size;
+#creation {
+  .toggle-form {
+    @include stretch(auto, 50%, 0, 50%);
+    font-size: $h2-font-size;
   }
 
-  .categories {
-    @include button-group-container;
+  form {
+    @include panel;
+    @include stretch-x(50%, 50%);
+    @include stretch-y(auto, $h2-font-size / 2);
 
-    & > li {
-      @include button-group-style;
-      margin-left: 1px;
+    $creation-width: 500px;
+
+    width: $creation-width;
+    margin-left: -$creation-width / 2;
+
+    legend {
+      font-size: $h3-font-size;
+    }
+
+    .categories {
+      @include button-group-container;
+
+      & > li {
+        @include button-group-style;
+        margin-left: 1px;
+      }
     }
   }
 }

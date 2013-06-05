@@ -24,28 +24,33 @@ License along with SOS Pomoc application.  If not, see
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>SOS Pomoc (Powered by Hearth)</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <link href='http://fonts.googleapis.com/css?family=Signika:300,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles/app.css">
     <script src="scripts/vendor/custom.modernizr.js"></script>
   </head>
   <body ng-app="sosPomocApp">
-    <div class="logo"></div>
-    <form ng-controller="FilterCtrl" class="custom">
-      <ul class="filter">
-        <li ng-repeat="category in categories"
-            ng-click="toggle(category)">
-          <label class="tag" for="tag-{{ category.value }}"><input type="checkbox" id="tag-{{ category.value }}" ng-checked="category.checked" style="display: none;"><span class="custom checkbox"></span> {{ category.name }}</label>
-        </li>
-      </ul>
+    <div id="logo"></div>
+    <form ng-controller="FilterCtrl" id="filter" class="custom">
+      <div ng-repeat="category in categories">
+        <label ng-click="toggle(category)"
+               class="tag"
+               for="tag-{{ category.value }}">
+          <input type="checkbox"
+                 ng-checked="category.checked"
+                 id="tag-{{ category.value }}"
+                 style="display: none;">
+          <span class="custom checkbox"></span> {{ category.name }}
+        </label>
+      </div>
     </form>
     <div ng-controller="MapCtrl"
          ng-init="initMap()"
          id="map"></div>
-    <div ng-controller="AdCreationCtrl">
+    <div ng-controller="AdCreationCtrl" id="creation">
       <a ng-click="showForm = !showForm"
          class="toggle-form">{{ toggleTitle }}</a>
-      <form ng-show="showForm" class="creation custom">
+      <form ng-show="showForm" class="custom">
         <fieldset>
           <legend>Potřebuji pomoct</legend>
           <div class="row">
@@ -93,11 +98,10 @@ License along with SOS Pomoc application.  If not, see
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
 
     <script>
-      if ('__proto__' in {}) {
-        document.write('<script src="scripts/vendor/zepto.js"></script>');
-      } else {
-        document.write('<script src="scripts/vendor/jquery.js"></script>');
-      }
+      document.write('__proto__' in {} ?
+        '<script src="scripts/vendor/zepto.js"><\/script>' :
+        '<script src="scripts/vendor/jquery.js"><\/script>'
+      );
     </script>
     <!-- build:js scripts/foundation.js -->
     <script src="scripts/foundation/foundation.js"></script>
@@ -125,13 +129,5 @@ License along with SOS Pomoc application.  If not, see
     <script src="scripts/controllers/filter.js"></script>
     <script src="scripts/controllers/ad_creation.js"></script>
     <!-- endbuild -->
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <!--script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
-    </script-->
   </body>
 </html>
