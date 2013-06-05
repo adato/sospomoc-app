@@ -48,27 +48,34 @@ License along with SOS Pomoc application.  If not, see
          ng-init="initMap()"
          id="map"></div>
     <div ng-controller="AdCreationCtrl" id="creation">
-      <a ng-click="showForm = !showForm"
+      <a ng-click="showForm = !showForm;"
          class="toggle-form">{{ toggleTitle }}</a>
-      <form ng-show="showForm" class="custom">
+      <form ng-show="showForm" class="custom" name="createForm">
         <fieldset>
           <legend>Potřebuji pomoct</legend>
+          <div class="row" style="color: green" ng-show="formSent">
+              <div>Odesláno!</div>
+          </div>
+          <div class="row" style="color: red" ng-show="errors.length > 0">
+              <div><ul><li ng-repeat="error in errors">{{ error.msg }}</li></ul></div>
+          </div>
           <div class="row">
             <div class="large-6 columns">
-              <input type="text" ng-model="name" required placeholder="Jméno a příjmení">
+              <input type="text" ng-model="newItem.name" required placeholder="Jméno a příjmení">
             </div>
             <div class="large-6 columns">
-              <input type="email" ng-model="email" required placeholder="Email">
+              <input type="email" ng-model="newItem.email" required placeholder="Email">
             </div>
           </div>
           <div class="row">
             <div class="large-12 columns">
-              <input type="text" ng-model="place" required placeholder="Místo">
+                <p ng-show="newItem.location.lat && newItem.location.lon" ng-cloak>Místo: <span ng-cloak ng-show="!newItem.location.name">Vaše aktuální poloha.</span><span ng-cloak ng-show="newItem.location.name">{{ newItem.location.name }}</span> <button type="button" class="small button" ng-click="newItem.location = null">Změnit</button></p>
+                <input type="text" id="newLocation" ng-model="newItem.location" placeholder="Místo (napište prvních pár písmen)" ng-show="!newItem.location.lat || !newItem.location.lon" ng-cloak>
             </div>
           </div>
           <div class="row">
             <div class="large-12 columns">
-              <textarea ng-model="description" placeholder="Popis"></textarea>
+              <textarea ng-model="newItem.description" placeholder="Popis" required></textarea>
             </div>
           </div>
           <div class="row">
@@ -81,18 +88,20 @@ License along with SOS Pomoc application.  If not, see
               </ul>
             </div>
           </div>
+          <div class="row">
+              <button ng-click="submit()">Odeslat</button>
+          </div>
         </fieldset>
       </form>
     </div>
 
-    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=false"></script>
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=false&libraries=places"></script>
     <script src="scripts/vendor/infobox.js"></script>
 
     <script src="components/angular/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
     <script src="components/angular-sanitize/angular-sanitize.js"></script>
-
     <script>
       document.write('__proto__' in {} ?
         '<script src="scripts/vendor/zepto.js"><\/script>' :

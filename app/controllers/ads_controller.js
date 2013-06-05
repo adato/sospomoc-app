@@ -31,4 +31,21 @@ AdsController.index = function() {
   });
 }
 
+AdsController.create = function() {
+    var req = this.req
+    var res = this.res
+    item = new Ad(req.body);
+    console.log('saving')
+    return item.save(function(err) {
+        if (err) {
+            res.send({
+                errors: err
+            });
+        }
+        if (!err) {
+            return res.send(item);
+        }
+    });
+}
+
 module.exports = AdsController;
