@@ -33,142 +33,14 @@ License along with SOS Pomoc application.  If not, see
 <div id="logo"></div>
 <form ng-controller="FilterCtrl" id="filter" class="custom">
     <div ng-repeat="category in categories">
-        <label ng-click="toggle(category)"
+        <label ng-click="toggle(category,$event)"
                class="tag"
                for="tag-{{ category.value }}">
             <input type="checkbox"
                    ng-checked="category.checked"
                    id="tag-{{ category.value }}"
-                   style="display: none;">
-            <span class="custom checkbox"></span> {{ category.name }}
-        </label>
-    </div>
-</form>
-<div ng-controller="MapCtrl"
-     ng-init="initMap()"
-     id="map"></div>
-<div ng-controller="AdCreationCtrl" id="creation">
-    <a ng-click="showForm = !showForm"
-       class="toggle-form">{{ toggleTitle }}</a>
-    <form ng-show="showForm" class="custom">
-        <fieldset>
-            <legend>Potřebuji pomoct</legend>
-            <div class="row">
-                <div class="large-6 columns">
-                    <input type="text" ng-model="name" required placeholder="Jméno a příjmení">
-                </div>
-                <div class="large-6 columns">
-                    <input type="email" ng-model="email" required placeholder="Email">
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <input type="text" ng-model="place" required placeholder="Místo">
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <textarea ng-model="description" placeholder="Popis"></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <ul class="categories">
-                        <li ng-repeat="category in categories"
-                            ng-click="toggle(category)">
-                            <label class="tag" for="tag-new-{{ category.value }}"><input type="checkbox" id="tag-new-{{ category.value }}" ng-checked="category.checked" style="display: none;"><span class="custom checkbox"></span> {{ category.name }}</label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-</div>
-
-<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=false"></script>
-<script src="scripts/vendor/infobox.js"></script>
-
-<script src="components/angular/angular.js"></script>
-<script src="components/angular-resource/angular-resource.js"></script>
-<script src="components/angular-cookies/angular-cookies.js"></script>
-<script src="components/angular-sanitize/angular-sanitize.js"></script>
-
-<script>
-    document.write('__proto__' in {} ?
-            '<script src="scripts/vendor/zepto.js"><\/script>' :
-            '<script src="scripts/vendor/jquery.js"><\/script>'
-    );
-</script>
-<!-- build:js scripts/foundation.js -->
-<script src="scripts/foundation/foundation.js"></script>
-<script src="scripts/foundation/foundation.alerts.js"></script>
-<script src="scripts/foundation/foundation.clearing.js"></script>
-<script src="scripts/foundation/foundation.cookie.js"></script>
-<script src="scripts/foundation/foundation.dropdown.js"></script>
-<script src="scripts/foundation/foundation.forms.js"></script>
-<script src="scripts/foundation/foundation.interchange.js"></script>
-<script src="scripts/foundation/foundation.joyride.js"></script>
-<script src="scripts/foundation/foundation.magellan.js"></script>
-<script src="scripts/foundation/foundation.orbit.js"></script>
-<script src="scripts/foundation/foundation.placeholder.js"></script>
-<script src="scripts/foundation/foundation.reveal.js"></script>
-<script src="scripts/foundation/foundation.section.js"></script>
-<script src="scripts/foundation/foundation.tooltips.js"></script>
-<script src="scripts/foundation/foundation.topbar.js"></script>
-<!-- endbuild -->
-
-<!-- build:js scripts/app.js -->
-<script src="scripts/app.js"></script>
-<script src="scripts/services/ads_service.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/map.js"></script>
-<script src="scripts/controllers/filter.js"></script>
-<script src="scripts/controllers/ad_creation.js"></script>
-<!-- endbuild -->
-</body>
-</html><!--
-This file is part of SOS Pomoc application.
-
-SOS Pomoc application is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-SOS Pomoc application is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public
-License along with SOS Pomoc application.  If not, see
-<http://www.gnu.org/licenses/>.
--->
-
-<!doctype html>
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="cs" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="cs" > <!--<![endif]-->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>SOS Pomoc (Powered by Hearth)</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <link href='http://fonts.googleapis.com/css?family=Signika:300,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="styles/app.css">
-    <script src="scripts/vendor/custom.modernizr.js"></script>
-</head>
-<body ng-app="sosPomocApp">
-<div id="logo"></div>
-<form ng-controller="FilterCtrl" id="filter" class="custom">
-    <div ng-repeat="category in categories">
-        <label ng-click="toggle(category)"
-               class="tag"
-               for="tag-{{ category.value }}">
-            <input type="checkbox"
-                   ng-checked="category.checked"
-                   id="tag-{{ category.value }}"
-                   style="display: none;">
-            <span class="custom checkbox"></span> {{ category.name }}
+                   style="adisplay: none;">
+            <span ng-class="{custom:true, checkbox:true, checked:category.checked }"></span> {{ category.name }}
         </label>
     </div>
 </form>
