@@ -30,17 +30,4 @@ angular.module('sosPomocApp', ['ngResource'])
   .config(function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     return delete $httpProvider.defaults.headers.common['X-Requested-With'];
-  })
-
-  .directive('ngBlur', function($parse) {
-    return function(scope, elm, attrs) {
-      var onBlurFunction = $parse(attrs['ngBlur']);
-      return elm.bind('blur', function(event) {
-        return scope.$apply(function() {
-          return onBlurFunction(scope, {
-            $event: event
-          });
-        });
-      });
-    };
   });
