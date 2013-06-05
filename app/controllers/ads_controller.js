@@ -27,12 +27,9 @@ AdsController.index = function () {
         searchObject.categories = { $in: self.req.query.categories.split(',') };
     }
 
-    Ad.find(function (err, ads) {
+    Ad.find({}).select('-token').exec(function (err, ads) {
         self.res.json(ads.map(function (ad) {
-            var jsonAd = ad.toObject();
-            delete jsonAd.token;
-
-            return jsonAd;
+            return ad.toObject();
         }));
     });
 }
@@ -52,7 +49,10 @@ AdsController.create = function () {
         }
         else {
             // send info email
-            return res.send(item);
+            
+            var object = item.toObject();
+            delete object.token;
+            return res.send(object);
         }
     });
 }
