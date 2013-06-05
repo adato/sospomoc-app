@@ -121,7 +121,12 @@ angular.module('sosPomocApp')
         center: new google.maps.LatLng(50.0632464, 14.4097413),
         zoom: 14,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        streetViewControl: false,
         panControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        zoomControlOptions: {
           position: google.maps.ControlPosition.TOP_RIGHT
         },
         styles: [
