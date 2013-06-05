@@ -42,7 +42,7 @@ angular.module('sosPomocApp')
       setFilter: function(newFilter) {
         filter = newFilter;
 
-        scheduledRefresh.cancel();
+        $timeout(scheduledRefresh);
         refreshAds();
       },
       promiseAds: function() {
