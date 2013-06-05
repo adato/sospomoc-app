@@ -55,24 +55,20 @@ License along with SOS Pomoc application.  If not, see
           <legend>Potřebuji pomoct</legend>
           <div class="row">
             <div class="large-6 columns">
-              <label>Jméno a příjmení</label>
-              <input type="text" ng-model="name">
+              <input type="text" ng-model="name" required placeholder="Jméno a příjmení">
             </div>
             <div class="large-6 columns">
-              <label>Email</label>
-              <input type="email" ng-model="email">
+              <input type="email" ng-model="email" required placeholder="Email">
             </div>
           </div>
           <div class="row">
             <div class="large-12 columns">
-              <label>Místo</label>
-              <input type="text" ng-model="place">
+              <input type="text" ng-model="place" required placeholder="Místo">
             </div>
           </div>
           <div class="row">
             <div class="large-12 columns">
-              <label>Popis</label>
-              <textarea ng-model="description"></textarea>
+              <textarea ng-model="description" placeholder="Popis"></textarea>
             </div>
           </div>
           <div class="row">
