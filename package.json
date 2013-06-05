@@ -14,7 +14,8 @@
     "express": "3.x.x",
     "mongoose": "~3.6.11",
     "cors": "~1.0.1",
-    "newrelic": "~0.9.20"
+    "newrelic": "~0.9.20",
+    "nodemailer": "~0.4.4"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

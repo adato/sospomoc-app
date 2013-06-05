@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         ]
       },
       js: {
-        files: ['<%= yeoman.dist %>/styles/{,*/}*.js'],
+        files: ['<%= yeoman.public %>/scripts/{,*/}*.js'],
       },
       html: {
         files: ['<%= yeoman.public %>/index.html']
