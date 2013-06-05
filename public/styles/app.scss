@@ -72,23 +72,11 @@ html, body, #map {
   }
 }
 
-#logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  background: url(/images/logo-gradient.png) no-repeat;
-  height: 400px;
-  width: 343px;
-  pointer-events: none;
-}
-
 #filter {
   @include button-group-container;
-  position: absolute;
+  position: relative;
   z-index: 2;
-  top: 120px;
-  left: 30px;
+  padding: 1em 1em 3em;
   pointer-events: none;
 
   .tag {
@@ -96,17 +84,10 @@ html, body, #map {
   }
 }
 
-.infoBox {
-  @include panel;
-  font-size: $h5-font-size;
-
-  .description {
-    @include stretch-y($panel-padding, 50px);
-  }
-
-  .contact {
-    @include stretch-y(150, $panel-padding);
-  }
+#powered-by {
+  @include stretch(auto, auto, 0, 62px);
+  z-index: 1;
+  padding: 7px;
 }
 
 #creation {
@@ -144,20 +125,39 @@ form.custom#filter, #creation form.custom {
   .tag {
     $button-margin-bottom: 1px;
     @include button;
+    @include button-style(#f29b78);
 
     .custom.checkbox.checked::before {
       content: none;
     }
 
     .custom.checkbox {
+      margin-right: $button-med;
       background-repeat: no-repeat;
       background-position: -35px;
       background-image: url(/images/checkbox.png);
-      vertical-align: text-bottom;
+      vertical-align: bottom;
     }
 
     .custom.checkbox.checked {
       background-position: 0;
     }
+  }
+
+  .tag.checked {
+    @include button-style($primary-color);
+  }
+}
+
+.infoBox {
+  @include panel;
+  font-size: $h5-font-size;
+
+  .description {
+    @include stretch-y($panel-padding, 50px);
+  }
+
+  .contact {
+    @include stretch-y(150, $panel-padding);
   }
 }

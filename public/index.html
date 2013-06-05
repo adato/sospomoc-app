@@ -30,20 +30,23 @@ License along with SOS Pomoc application.  If not, see
     <script src="scripts/vendor/custom.modernizr.js"></script>
 </head>
 <body ng-app="sosPomocApp">
-<div id="logo"></div>
 <form ng-controller="FilterCtrl" id="filter" class="custom">
     <div ng-repeat="category in categories">
-        <label ng-click="toggle(category,$event)"
+        <label ng-click="toggle(category, $event)"
+               ng-class="{ tag: true, checked: category.checked }"
                class="tag"
                for="tag-{{ category.value }}">
             <input type="checkbox"
                    ng-checked="category.checked"
                    id="tag-{{ category.value }}"
                    style="display: none;">
-            <span ng-class="{custom:true, checkbox:true, checked:category.checked }"></span> {{ category.name }}
+            <span ng-class="{ custom: true, checkbox: true, checked: category.checked }"></span> {{ category.name }}
         </label>
     </div>
 </form>
+<div id="powered-by">
+  <a href="http://www.hearth.net/">Powered by Hearth</a>
+</div>
 <div ng-controller="MapCtrl"
      ng-init="initMap()"
      id="map"></div>

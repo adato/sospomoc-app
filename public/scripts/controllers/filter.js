@@ -36,23 +36,11 @@ angular.module('sosPomocApp')
       return category;
     });
 
-    $scope.toggle = function (categoryToToggle,e) {
+    $scope.toggle = function (category, $event) {
+      category.checked = !category.checked;
+      $event.preventDefault();
 
-        categoryToToggle.checked = !categoryToToggle.checked;
-        e.preventDefault();
-
-        /*$scope.categories
-        .filter(function (category) {
-          return category === categoryToToggle;
-        })
-        .forEach(function (category) {
-          //$scope.$apply(function() {
-              category.checked = !category.checked;
-          //})
-        });
-        */
-        var filter = { categories: checkedCategories() };
-        adsService.setFilter(filter);
+      adsService.setFilter({ categories: checkedCategories() });
     };
 
   });

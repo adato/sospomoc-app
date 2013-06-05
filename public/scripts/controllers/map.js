@@ -124,10 +124,10 @@ angular.module('sosPomocApp')
         mapTypeControl: false,
         streetViewControl: false,
         panControlOptions: {
-          position: google.maps.ControlPosition.TOP_RIGHT
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
         },
         zoomControlOptions: {
-          position: google.maps.ControlPosition.TOP_RIGHT
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
         },
         styles: [
           {
