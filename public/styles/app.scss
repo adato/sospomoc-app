@@ -56,11 +56,26 @@ License along with SOS Pomoc application.  If not, see
 // @import "foundation/components/tooltips";
 // @import "foundation/components/dropdown";
 
+@import "compass/css3/inline-block";
 @import "compass/layout/stretching";
 @import "compass/reset";
 
 html, body, #map {
   @include stretch;
+}
+
+#powered-by {
+  @include stretch(auto, auto, 0, 62px);
+  z-index: 1;
+  padding: 4px 7px;
+
+  h1 {
+    visibility: hidden;
+  }
+
+  h2 {
+    @include reset-box-model;
+  }
 }
 
 #map {
@@ -84,27 +99,40 @@ html, body, #map {
   }
 }
 
-#powered-by {
-  @include stretch(auto, auto, 0, 62px);
-  z-index: 1;
-  padding: 7px;
-}
+#create-form {
 
-#creation {
+  form, .toggle-form {
+    @include stretch(1em, 1em, auto, auto);
+  }
+
   .toggle-form {
-    @include stretch(auto, 50%, 0, 50%);
-    font-size: $h2-font-size;
+    a {
+      @include button;
+
+      span {
+        @include inline-block(bottom);
+        width: $custom-form-input-size;
+        height: $custom-form-input-size;
+        margin-right: $button-med;
+        background-repeat: no-repeat;
+        background-position: -35px;
+        background-image: url(/images/checkbox.png);
+      }
+    }
   }
 
   form {
     @include panel;
-    @include stretch-x(50%, 50%);
-    @include stretch-y(auto, $h2-font-size / 2);
 
     $creation-width: 500px;
 
     width: $creation-width;
     margin-left: -$creation-width / 2;
+
+    .close {
+      @include stretch(3px, 3px, auto, auto);
+      @include alert-close;
+    }
 
     legend {
       font-size: $h3-font-size;
@@ -121,9 +149,8 @@ html, body, #map {
   }
 }
 
-form.custom#filter, #creation form.custom {
+#filter, #create-form {
   .tag {
-    $button-margin-bottom: 1px;
     @include button;
     @include button-style(#f29b78);
 

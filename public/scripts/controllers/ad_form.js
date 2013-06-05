@@ -19,7 +19,7 @@ License along with SOS Pomoc application.  If not, see
 'use strict';
 
 angular.module('sosPomocApp')
-  .controller('AdCreationCtrl', function ($scope, Ad, adsService) {
+  .controller('AdFormCtrl', function ($scope, Ad, adsService) {
 
    $scope.findMe = function() {
         if ($scope.geolocationAvailable) {
@@ -76,7 +76,6 @@ angular.module('sosPomocApp')
     }
 
     $scope.$watch('showForm', function() {
-        $scope.toggleTitle = $scope.showForm ? 'skrýt' : 'zadat potřebu';
         if($scope.showForm && !$scope.newItem.location) {
             $scope.geolocationAvailable = navigator.geolocation ? true : false
             $scope.asked = true
@@ -110,6 +109,14 @@ angular.module('sosPomocApp')
     $scope.toggleCategory = function(index) {
         $scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
     }
+
+    $scope.open = function() {
+      $scope.showForm = true;
+    };
+
+    $scope.close = function() {
+      $scope.showForm = false;
+    };
 
     $scope.init();
 

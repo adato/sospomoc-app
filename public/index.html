@@ -30,7 +30,11 @@ License along with SOS Pomoc application.  If not, see
     <script src="scripts/vendor/custom.modernizr.js"></script>
   </head>
   <body ng-app="sosPomocApp">
-    <form ng-controller="FilterCtrl" id="filter" class="custom">
+    <div id="powered-by">
+      <h1>SOS Pomoc</h1>
+      <h2 class="subheader"><a href="http://www.hearth.net/">Powered by Hearth</a></h2>
+    </div>
+    <form ng-controller="FilterCtrl" ng-cloak id="filter" class="custom">
       <div ng-repeat="category in categories">
         <label ng-click="toggle(category, $event)"
                ng-class="{ tag: true, checked: category.checked }"
@@ -44,14 +48,13 @@ License along with SOS Pomoc application.  If not, see
         </label>
       </div>
     </form>
-    <div id="powered-by">
-      <a href="http://www.hearth.net/">Powered by Hearth</a>
-    </div>
     <div ng-controller="MapCtrl" ng-init="initMap()" id="map"></div>
-    <div ng-controller="AdCreationCtrl" id="creation">
-      <a ng-click="showForm = !showForm;"
-         class="toggle-form">{{ toggleTitle }}</a>
-      <form ng-show="showForm" class="custom" name="createForm">
+    <div ng-controller="AdFormCtrl" ng-cloak id="create-form">
+      <div class="toggle-form">
+        <a ng-click="open()" href="#"><span></span> Potřebuji…</a>
+      </div>
+
+      <form ng-show="showForm" name="create-form" class="custom">
         <fieldset>
           <legend>Potřebuji pomoc</legend>
           <div ng-show="formSent" class="row" style="color: green">
@@ -80,18 +83,14 @@ License along with SOS Pomoc application.  If not, see
           </div>
           <div class="row">
             <div class="large-12 columns">
-              <p ng-cloak
-                 ng-show="newItem.location.lat && newItem.location.lon">Místo:
-                <span ng-cloak
-                      ng-show="!newItem.location.name">Vaše aktuální poloha.</span>
-                <span ng-cloak
-                      ng-show="newItem.location.name">{{ newItem.location.name }}</span>
+              <p ng-show="newItem.location.lat && newItem.location.lon">Místo:
+                <span ng-show="!newItem.location.name">Vaše aktuální poloha.</span>
+                <span ng-show="newItem.location.name">{{ newItem.location.name }}</span>
                 <button type="button"
                         ng-click="newItem.location = null"
                         class="small button">Změnit</button>
               </p>
               <input type="text"
-                     ng-cloak
                      ng-model="newItem.location"
                      ng-show="!newItem.location.lat || !newItem.location.lon"
                      id="newLocation"
@@ -121,6 +120,7 @@ License along with SOS Pomoc application.  If not, see
           <div class="row">
             <button ng-click="submit()">Odeslat</button>
           </div>
+          <a ng-click="close()" href="#" class="close">&times;</a>
         </fieldset>
       </form>
     </div>
@@ -163,7 +163,7 @@ License along with SOS Pomoc application.  If not, see
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/filter.js"></script>
-    <script src="scripts/controllers/ad_creation.js"></script>
+    <script src="scripts/controllers/ad_form.js"></script>
     <!-- endbuild -->
   </body>
 </html>
