@@ -37,28 +37,33 @@ angular.module('sosPomocApp')
     $scope.initAutocomplete = function() {
       var autocomplete, input;
       input = document.getElementById('newLocation');
-      autocomplete = new google.maps.places.Autocomplete(input);
-      google.maps.event.addDomListener(input, 'keydown', function(e) {
-        if (e.keyCode === 13) {
-          return e.preventDefault();
-        }
-      });
-      return google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place;
-        place = autocomplete.getPlace();
-        if (!place.geometry) {
-          return;
-        }
-        if (place.geometry.location) {
-          return $scope.$apply(function() {
-            return $scope.newItem.location = {
-              lat: place.geometry.location.jb,
-              lon: place.geometry.location.kb,
-              name: document.getElementById('newLocation').value
-            };
+      if(input)  {
+          autocomplete = new google.maps.places.Autocomplete(input);
+          console.log(input)
+
+          google.maps.event.addDomListener(input, 'keydown', function(e) {
+            if (e.keyCode === 13) {
+              return e.preventDefault();
+            }
           });
-        }
-      });
+
+          return google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place;
+            place = autocomplete.getPlace();
+            if (!place.geometry) {
+              return;
+            }
+            if (place.geometry.location) {
+              return $scope.$apply(function() {
+                return $scope.newItem.location = {
+                  lat: place.geometry.location.jb,
+                  lon: place.geometry.location.kb,
+                  name: document.getElementById('newLocation').value
+                };
+              });
+            }
+          });
+      }
     };
 
     $scope.init = function() {
@@ -66,17 +71,21 @@ angular.module('sosPomocApp')
       $scope.formSent = false
       $scope.newItem = {}
       $scope.asked = false
-      $scope.isTouchDevice = true//$('html').hasClass('touch')
+      $scope.isTouchDevice = $('html').hasClass('touch')
+      $scope.geolocationAvailable = false //default
       $scope.allCategories = adsService.categories.map(function(category) {
         category.checked = false;
         return category;
       });
       $scope.newItem.categories = angular.copy($scope.allCategories);
-
       $scope.initAutocomplete();
-      $scope.geolocationAvailable = !!navigator.geolocation;
-      $scope.asked = true;
-      $scope.findMe();
+
+        if(!$scope.newItem.location && $scope.isTouchDevice) {
+            $scope.geolocationAvailable = navigator.geolocation ? true : false
+            $scope.asked = true
+            $scope.findMe()
+        }
+
     }
 
     var createAd = function() {
