@@ -60,7 +60,7 @@
         <li ng-repeat="category in newItem.categories"
             ng-click="toggleCategory(category)">
           <label ng-class="{tag:true, checked: category.checked }">
-            <span class="custom checkbox"></span> {{ category.name }}
+            <span ng-class="{ custom: true, checkbox: true, checked: category.checked }"></span> {{ category.name }}
           </label>
         </li>
       </ul>
