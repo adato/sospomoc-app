@@ -57,12 +57,24 @@ AdsController.create = function () {
     });
 }
 
+AdsController.show = function () {
+    var req = this.req
+    var res = this.res
+    Ad.findOne({'token': req.params.id}).exec(function (err, ad) {
+        if(ad) {
+          return res.send(ad)
+        } else {
+            res.send(404)
+        }
+    })
+}
+
 AdsController.update = function () {
     var self = this;
     self.res.send(501)
 }
 
-AdsController.delete = function () {
+AdsController.del = function () {
     var self = this;
     self.res.send(501)
 }

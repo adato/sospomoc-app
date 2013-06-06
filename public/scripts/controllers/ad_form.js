@@ -19,7 +19,7 @@ License along with SOS Pomoc application.  If not, see
 'use strict';
 
 angular.module('sosPomocApp')
-  .controller('AdFormCtrl', function ($scope, Ad, adsService, $http) {
+  .controller('AdFormCtrl', function ($scope, Ad, adsService, $http, $routeParams) {
 
     $scope.findMe = function() {
       if ($scope.geolocationAvailable) {
@@ -39,8 +39,6 @@ angular.module('sosPomocApp')
       input = document.getElementById('newLocation');
       if(input)  {
           autocomplete = new google.maps.places.Autocomplete(input);
-          console.log(input)
-
           google.maps.event.addDomListener(input, 'keydown', function(e) {
             if (e.keyCode === 13) {
               return e.preventDefault();
@@ -66,6 +64,18 @@ angular.module('sosPomocApp')
       }
     };
 
+    var loadAd = function(id) {
+        $http.get('http://sospomoc.lc:3000/ads/' + id).success(function(data) {
+            angular.forEach(data.categories, function(v, k) {
+               data.categories[k].checked = true
+            })
+            $scope.newItem = data
+            $scope.newItem.categories = $.extend($scope.allCategories, $scope.newItem.categories)
+            $scope.newItem.location.name = $scope.newItem.location.place
+            delete $scope.newItem.location.place
+        })
+    }
+
     $scope.init = function() {
       $scope.errors = []
       $scope.formSent = false
@@ -73,25 +83,32 @@ angular.module('sosPomocApp')
       $scope.asked = false
       $scope.isTouchDevice = $('html').hasClass('touch')
       $scope.geolocationAvailable = false //default
-      $scope.allCategories = adsService.categories.map(function(category) {
+      $scope.editMode = false
+    $scope.allCategories = adsService.categories.map(function(category) {
         category.checked = false;
         return category;
-      });
-      $scope.newItem.categories = angular.copy($scope.allCategories);
+    });
+      if($routeParams.id) {
+          loadAd($routeParams.id)
+          $scope.editMode = true
+      } else {
+          $scope.newItem.categories = angular.copy($scope.allCategories);
+          if(!$scope.newItem.location && $scope.isTouchDevice) {
+              $scope.geolocationAvailable = navigator.geolocation ? true : false
+              $scope.asked = true
+              $scope.findMe()
+          }
+      }
       $scope.initAutocomplete();
-
-        if(!$scope.newItem.location && $scope.isTouchDevice) {
-            $scope.geolocationAvailable = navigator.geolocation ? true : false
-            $scope.asked = true
-            $scope.findMe()
-        }
-
     }
 
     var createAd = function() {
+        var categoriesBackup = angular.copy($scope.newItem.categories)
+        $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })        
         Ad.create($scope.newItem, (function(data){
             if(data.errors) {
                 $scope.errors.push("Odeslání se nezdařilo")
+                $scope.newItem.categories = categoriesBackup
             }
             else {
                 $scope.errors = [];
@@ -107,10 +124,9 @@ angular.module('sosPomocApp')
       $scope.formSent = false
       if(!$scope.createForm.$invalid) {
         if(!$scope.newItem.location) {
-          $scope.errors.push({param: 'location', msg: "Lokalita je povinná položka."});
+          $scope.errors.push("Lokalita je povinná položka.");
         }
         else {
-          $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })
           if($scope.newItem.location.name) {
               $scope.newItem.location.place = $scope.newItem.location.name
               createAd()

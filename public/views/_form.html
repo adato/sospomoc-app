@@ -5,7 +5,7 @@
   <div ng-show="errors.length > 0" class="row" style="color: red">
     <div>
       <ul>
-        <li ng-repeat="error in errors">{{ error.msg }}</li>
+        <li ng-repeat="error in errors">{{ error }}</li>
       </ul>
     </div>
   </div>
@@ -61,6 +61,7 @@
   </div>
   <div class="row">
     <button ng-click="submit()">Odeslat</button>
+
   </div>
   <a ng-click="close()" href="#/needs" class="close">&times;</a>
 </form>
