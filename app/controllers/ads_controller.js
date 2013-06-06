@@ -43,6 +43,7 @@ AdsController.create = function () {
   console.log('saving')
   // create fake token to trick validation :)
 
+
     var item = new Ad(req.body);
   item.token = uuid.v4();
   return item.save(function (err, item) {
