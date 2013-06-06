@@ -116,9 +116,7 @@ angular.module('sosPomocApp')
       $scope.initAutocomplete();
     }
 
-    var createAd = function() {
-        var categoriesBackup = angular.copy($scope.newItem.categories)
-        $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })      
+    var createAd = function(categoriesBackup) {   
         if($scope.editMode) {
             $scope.newItem.token = $routeParams.id
             Ad.edit({'id': $routeParams.id}, $scope.newItem, function(data) {
@@ -146,25 +144,39 @@ angular.module('sosPomocApp')
             }))
         }
     }
+    
+    var filterCategories = function() {
+        return $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })
+    }
+    
+    var validate = function() {
+        $scope.errors = []        
+        var filtered = filterCategories()   
+        if(!filtered.length) {
+          $scope.errors.push("Vyberte alespoň jednu kategorii.")
+        }
+        if(!$scope.newItem.location) {
+          $scope.errors.push("Lokalita je povinná položka.")
+        }        
+    }
 
     $scope.submit = function() {
-      $scope.errors = []
       $scope.formSent = false
       if(!$scope.createForm.$invalid) {
-        if(!$scope.newItem.location) {
-          $scope.errors.push("Lokalita je povinná položka.");
-        }
-        else {
+        validate()
+        if(!$scope.errors.length) {
+          var categoriesBackup = angular.copy($scope.newItem.categories)   
+          $scope.newItem.categories = filterCategories()
           if($scope.newItem.location.name) {
               $scope.newItem.location.place = $scope.newItem.location.name
-              createAd()
+              createAd(categoriesBackup)
           }
           else {
               var location = $scope.newItem.location
               var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ location.lat + ',' + location.lon + '&sensor=true'
               $http.get(url).success(function(data) {
                   if(data.results.length > 0)   $scope.newItem.location.place = data.results[0].formatted_address
-                  createAd()
+                  createAd(categoriesBackup)
               })
           }
         }
@@ -172,7 +184,6 @@ angular.module('sosPomocApp')
     }
 
     $scope.toggleCategory = function(category) {
-      //$scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
       category.checked = !category.checked;
     }
 
