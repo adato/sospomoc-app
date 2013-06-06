@@ -66,22 +66,18 @@ angular.module('sosPomocApp')
       $scope.formSent = false
       $scope.newItem = {}
       $scope.asked = false
-      $scope.showForm = false
       $scope.allCategories = adsService.categories.map(function(category) {
         category.checked = false;
         return category;
       });
       $scope.newItem.categories = angular.copy($scope.allCategories);
-      $scope.initAutocomplete()
-    }
 
-    $scope.$watch('showForm', function() {
-      if($scope.showForm && !$scope.newItem.location) {
-        $scope.geolocationAvailable = navigator.geolocation ? true : false
-        $scope.asked = true
-        $scope.findMe()
-      }
-    });
+      $scope.initAutocomplete();
+
+      $scope.geolocationAvailable = !!navigator.geolocation;
+      $scope.asked = true;
+      $scope.findMe();
+    }
 
     $scope.submit = function() {
       if(!$scope.createForm.$invalid) {
@@ -109,14 +105,6 @@ angular.module('sosPomocApp')
     $scope.toggleCategory = function(index) {
       $scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
     }
-
-    $scope.open = function() {
-      $scope.showForm = true;
-    };
-
-    $scope.close = function() {
-      $scope.showForm = false;
-    };
 
     $scope.init();
 
