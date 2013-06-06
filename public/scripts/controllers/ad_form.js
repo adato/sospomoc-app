@@ -79,7 +79,7 @@ angular.module('sosPomocApp')
             }
         }))
     }
-    
+
     $scope.remove = function() {
         Ad.remove({'id': $routeParams.id}, function(data) {
             if(data.ok) {
@@ -116,13 +116,13 @@ angular.module('sosPomocApp')
       $scope.initAutocomplete();
     }
 
-    var createAd = function(categoriesBackup) {   
+    var createAd = function(categoriesBackup) {
         if($scope.editMode) {
             $scope.newItem.token = $routeParams.id
             Ad.edit({'id': $routeParams.id}, $scope.newItem, function(data) {
                 $scope.newItem.categories = categoriesBackup
                 if(data.errors) {
-                    $scope.errors.push("Odeslání se nezdařilo")                    
+                    $scope.errors.push("Odeslání se nezdařilo")
                 }
                 else {
                     $scope.errors = [];
