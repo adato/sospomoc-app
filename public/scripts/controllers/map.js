@@ -22,7 +22,7 @@ angular.module('sosPomocApp')
   .controller('MapCtrl', function ($scope, adsService) {
 
     function getInfoBoxOptions(ad) {
-      var categories = adsService.categories
+      var categories = adsService.categories()
         .filter(function(category) {
           return ad.categories &&
             (ad.categories.indexOf(category.value) >= 0);

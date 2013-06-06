@@ -31,7 +31,7 @@ angular.module('sosPomocApp')
         });
     }
 
-    $scope.categories = adsService.categories.map(function(category) {
+    $scope.categories = adsService.categories().map(function(category) {
       category.checked = true;
       return category;
     });

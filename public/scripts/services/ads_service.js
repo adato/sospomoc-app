@@ -51,38 +51,40 @@ angular.module('sosPomocApp')
       ads: function() {
         return ads;
       },
-      categories: [
-        {
-          name: 'Úklid',
-          value: 'cleaning'
-        }, {
-          name: 'Vysoušeče',
-          value: 'dryers'
-        }, {
-          name: 'Oblečení',
-          value: 'clothing'
-        }, {
-          name: 'Finanční pomoc',
-          value: 'financial_aid'
-        }, {
-          name: 'Čisticí prostředky',
-          value: 'detergents'
-        }, {
-          name: 'Potraviny',
-          value: 'grocery'
-        }, {
-          name: 'Hygiena',
-          value: 'hygiene',
-        }, {
-          name: 'Přístřeší',
-          value: 'shelter'
-        }, {
-          name: 'Zázemí/hlídání dětí',
-          value: 'facilities'
-        }, {
-          name: 'Nářadí',
-          value: 'gear'
-        }
-      ]
+      categories: function() {
+        return [
+          {
+            name: 'Úklid',
+            value: 'cleaning'
+          }, {
+            name: 'Vysoušeče',
+            value: 'dryers'
+          }, {
+            name: 'Oblečení',
+            value: 'clothing'
+          }, {
+            name: 'Finanční pomoc',
+            value: 'financial_aid'
+          }, {
+            name: 'Čisticí prostředky',
+            value: 'detergents'
+          }, {
+            name: 'Potraviny',
+            value: 'grocery'
+          }, {
+            name: 'Hygiena',
+            value: 'hygiene',
+          }, {
+            name: 'Přístřeší',
+            value: 'shelter'
+          }, {
+            name: 'Zázemí/hlídání dětí',
+            value: 'facilities'
+          }, {
+            name: 'Nářadí',
+            value: 'gear'
+          }
+        ];
+      }
     };
   });
