@@ -19,7 +19,7 @@ License along with SOS Pomoc application.  If not, see
 'use strict';
 
 angular.module('sosPomocApp')
-  .controller('AdFormCtrl', function ($scope, Ad, adsService, $http, $routeParams) {
+  .controller('AdFormCtrl', function ($scope, Ad, adsService, $http, $routeParams, $location) {
 
     $scope.findMe = function() {
       if ($scope.geolocationAvailable) {
@@ -65,14 +65,28 @@ angular.module('sosPomocApp')
     };
 
     var loadAd = function(id) {
-        $http.get('http://sospomoc.lc:3000/ads/' + id).success(function(data) {
-            angular.forEach(data.categories, function(v, k) {
-               data.categories[k].checked = true
-            })
-            $scope.newItem = data
-            $scope.newItem.categories = $.extend($scope.allCategories, $scope.newItem.categories)
-            $scope.newItem.location.name = $scope.newItem.location.place
-            delete $scope.newItem.location.place
+        Ad.get({'id':id}, (function(data) {
+            if(data.errors) {
+                $location.path('/')
+            } else {
+                angular.forEach(data.categories, function(v, k) {
+                data.categories[k].checked = true
+                })
+                $scope.newItem = data
+                $scope.newItem.categories = $.extend($scope.allCategories, $scope.newItem.categories)
+                $scope.newItem.location.name = $scope.newItem.location.place
+                delete $scope.newItem.location.place
+            }
+        }))
+    }
+    
+    $scope.remove = function() {
+        Ad.remove({'id': $routeParams.id}, function(data) {
+            if(data.ok) {
+                $location.path('/')
+            } else {
+                $scope.errors.push('Smazání se nezdařilo')
+            }
         })
     }
 
@@ -147,6 +161,5 @@ angular.module('sosPomocApp')
       $scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
     }
 
-    $scope.init();
 
   });

@@ -38,6 +38,7 @@ angular.module('sosPomocApp', ['ngResource'])
   .factory('Ad', function($resource) {
     return $resource('/ads/:id', {id:'@id'}, {
       show: { method: 'GET', isArray: true },
+      get: { method: 'GET'},
       create: { method: 'POST' },
       remove: { method: 'DELETE'},
       edit: { method: 'PUT'}

@@ -28,7 +28,8 @@ var schema = require('mongoose').Schema({
         lon: {type: Number, required: true },
         lat: {type: Number, required: true }
     },
-    token: {type: String, required: true }
+    token: {type: String, required: true },
+    isDeleted: {type: Boolean, 'default': false}
 });
 
 module.exports = require('mongoose').model('Ad', schema);

@@ -27,7 +27,7 @@ AdsController.index = function () {
         searchObject.categories = { $in: self.req.query.categories.split(',') };
     }
 
-    Ad.find({}).select('-token').exec(function (err, ads) {
+    Ad.find({isDeleted:{'$ne':true}}).select('-token').exec(function (err, ads) {
         self.res.json(ads.map(function (ad) {
             return ad.toObject();
         }));
@@ -60,11 +60,11 @@ AdsController.create = function () {
 AdsController.show = function () {
     var req = this.req
     var res = this.res
-    Ad.findOne({'token': req.params.id}).exec(function (err, ad) {
+    Ad.findOne({token: req.params.id, isDeleted: {'$ne':true}}).exec(function (err, ad) {
         if(ad) {
           return res.send(ad)
         } else {
-            res.send(404)
+            res.send({errors: 'ERR_AD_NOT_FOUND'})
         }
     })
 }
@@ -74,9 +74,36 @@ AdsController.update = function () {
     self.res.send(501)
 }
 
-AdsController.del = function () {
-    var self = this;
-    self.res.send(501)
+AdsController.destroy = function () {
+  var req = this.req
+  var res = this.res
+  return Ad.findOne({
+    token: req.params.id
+  }, function(err, ad) {
+    if (ad) {
+      ad.isDeleted = true;
+      return ad.save(function(err) {
+        if (err) {
+          return res.send({
+            ok: false,
+            errors: err
+          });
+        } else {
+          return res.send({
+            ok: true
+          });
+        }
+      });
+    } else {
+      err = err != null ? err : {
+        err: 'ERR_AD_NOT_FOUND'
+      };
+      return res.send({
+        ok: false,
+        errors: err
+      });
+    }
+  });
 }
 
 
