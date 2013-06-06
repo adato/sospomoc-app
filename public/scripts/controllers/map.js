@@ -22,25 +22,20 @@ angular.module('sosPomocApp')
   .controller('MapCtrl', function ($scope, adsService) {
 
     function getInfoBoxOptions(ad) {
-      var categories = adsService.categories()
-        .filter(function(category) {
-          return ad.categories &&
-            (ad.categories.indexOf(category.value) >= 0);
-        })
+      var categories = ad.categories
         .map(function(category) {
           return category.name;
         });
-
       return {
         content: '' +
           '<div class="description">' +
             '<p>' + ad.description + '</p>' +
-            '<p><strong>Kategorie:</strong> ' + categories.join(', ') + '</p>' +
+            '<p><strong>Kategorie: </strong> ' + categories.join(', ') + '</p>' +
           '</div>' +
           '<div class="contact">' +
-            '<p><strong>Autor:</strong></p>' +
-            '<p><a href="mailto:' + ad.email + '">' + ad.name + '</a></p>' +
-            '<p>' + ad.contact + '</p>' +
+            '<p><strong>Autor: </strong>' + ad.name + '</p>' +
+            '<p><strong>Email: </strong><a href="mailto:' + ad.email + '">' + ad.email + '</a></p>' +
+            ( ad.contact ? '<p>' + ad.contact + '</p>' : '') +
           '</div>',
         pane: 'floatPane',
         closeBoxMargin: '-17px',
@@ -54,7 +49,7 @@ angular.module('sosPomocApp')
 
     function createMarker(ad) {
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(ad.location.lat, ad.location.lng),
+        position: new google.maps.LatLng(ad.location.lat, ad.location.lon),
         map: $scope.map,
         icon: '/images/marker.png'
       });
@@ -70,7 +65,7 @@ angular.module('sosPomocApp')
 
     function updateMarker(ad) {
       $scope.markers[ad['_id']].setPosition(
-        new google.maps.LatLng(ad.location.lat, ad.location.lng)
+        new google.maps.LatLng(ad.location.lat, ad.location.lon)
       );
       $scope.infoBoxes[ad['_id']].setContent(
         getInfoBoxOptions(ad).content
