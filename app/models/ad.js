@@ -37,6 +37,7 @@ var schema = mongoose.Schema({
     contact: {type: String}
 });
 
+//array: { type: [Number], unique: true, required: true } should work as well
 schema.path('categories').validate(function (value) {
   if(value instanceof Array && value.length>0) return true
   else return false;
