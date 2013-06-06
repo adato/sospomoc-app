@@ -1,0 +1,51 @@
+<form name="createForm" class="custom" ng-controller="AdFormCtrl" ng-init="init()">
+  <div ng-show="formSent" class="row" style="color: green">
+    <div>Odesláno!</div>
+  </div>
+  <div ng-show="errors.length > 0" class="row" style="color: red">
+    <div>
+      <ul>
+        <li ng-repeat="error in errors">{{ error }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-6 columns">
+      <input type="text" ng-model="newItem.name" required="" placeholder="Jméno a příjmení">
+    </div>
+    <div class="large-6 columns">
+      <input type="email" ng-model="newItem.email" required="" placeholder="Email">
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <p ng-show="newItem.location.lat && newItem.location.lon">Místo:
+        <span ng-show="!newItem.location.name">Vaše aktuální poloha.</span>
+        <span ng-show="newItem.location.name">{{ newItem.location.name }}</span>
+        <button type="button" ng-click="newItem.location = null" class="small button">Změnit</button>
+      </p>
+      <input type="text" ng-model="newItem.location" ng-show="!newItem.location.lat || !newItem.location.lon" id="newLocation" placeholder="Místo (napište prvních pár písmen)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <textarea ng-model="newItem.description" placeholder="Popis" required=""></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <ul class="categories">
+        <li ng-repeat="category in newItem.categories" ng-click="toggleCategory($index)" ng-show="!category.checked">
+          <label class="tag">
+            <span class="custom checkbox"></span> {{ category.name }}
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <button ng-click="submit()">Odeslat</button>
+    <button ng-click="remove()" ng-show="editMode == true" ng-cloak="">Smazat</button>
+  </div>
+  <a ng-click="close()" href="#/needs" class="close">&times;</a>
+</form>
