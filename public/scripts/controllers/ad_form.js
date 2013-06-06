@@ -19,7 +19,7 @@ License along with SOS Pomoc application.  If not, see
 'use strict';
 
 angular.module('sosPomocApp')
-  .controller('AdFormCtrl', function ($scope, Ad, adsService) {
+  .controller('AdFormCtrl', function ($scope, Ad, adsService, $http) {
 
     $scope.findMe = function() {
       if ($scope.geolocationAvailable) {
@@ -66,6 +66,7 @@ angular.module('sosPomocApp')
       $scope.formSent = false
       $scope.newItem = {}
       $scope.asked = false
+      $scope.isTouchDevice = true//$('html').hasClass('touch')
       $scope.allCategories = adsService.categories.map(function(category) {
         category.checked = false;
         return category;
@@ -73,31 +74,46 @@ angular.module('sosPomocApp')
       $scope.newItem.categories = angular.copy($scope.allCategories);
 
       $scope.initAutocomplete();
-
       $scope.geolocationAvailable = !!navigator.geolocation;
       $scope.asked = true;
       $scope.findMe();
     }
 
+    var createAd = function() {
+        Ad.create($scope.newItem, (function(data){
+            if(data.errors) {
+                $scope.errors.push("Odeslání se nezdařilo")
+            }
+            else {
+                $scope.errors = [];
+                $scope.formSent = true;
+                $scope.newItem = {}
+                $scope.newItem.categories = $scope.allCategories
+            }
+        }))
+    }
+
     $scope.submit = function() {
+      $scope.errors = []
+      $scope.formSent = false
       if(!$scope.createForm.$invalid) {
-        $scope.errors = []
         if(!$scope.newItem.location) {
           $scope.errors.push({param: 'location', msg: "Lokalita je povinná položka."});
         }
         else {
           $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })
-          Ad.create($scope.newItem, (function(data){
-            if(data.errors) {
-              $scope.errors.push("Odeslání se nezdařilo")
-            }
-            else {
-              $scope.errors = [];
-              $scope.formSent = true;
-              $scope.newItem = {}
-              $scope.newItem.categories = $scope.allCategories
-            }
-          }))
+          if($scope.newItem.location.name) {
+              $scope.newItem.location.place = $scope.newItem.location.name
+              createAd()
+          }
+          else {
+              var location = $scope.newItem.location
+              var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ location.lat + ',' + location.lon + '&sensor=true'
+              $http.get(url).success(function(data) {
+                  if(data.results.length > 0)   $scope.newItem.location.place = data.results[0].formatted_address
+                  createAd()
+              })
+          }
         }
       }
     }
