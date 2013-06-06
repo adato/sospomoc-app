@@ -22,7 +22,11 @@ var express = require('express')
 
 module.exports = function() {
   this.mailer = nodemailer.createTransport('sendmail');
-
+  this.config = {
+    mail : {
+      support_email :
+    }
+  }
   //XXX somehow this has to befor static middleware which is
   // completely opposite to connect-livereload documentation
   this.use(connectLivereload());

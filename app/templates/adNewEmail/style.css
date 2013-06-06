@@ -1,3 +1,7 @@
 body {
     background-color: lightorange;
 }
+
+p {
+    margin:20px 2px;
+}

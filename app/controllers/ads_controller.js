@@ -22,55 +22,57 @@ var uuid = require('node-uuid');
 var emails = require('../lib/emails');
 
 AdsController.index = function () {
-    var self = this;
-    var searchObject = { location: { $exists: true} }
-    if (self.req.query.categories) {
-        searchObject.categories = { $in: self.req.query.categories.split(',') };
-    }
+  var self = this;
+  var searchObject = { location: { $exists: true} }
+  if (self.req.query.categories) {
+    searchObject.categories = { $in: self.req.query.categories.split(',') };
+  }
 
     Ad.find({isDeleted:{'$ne':true}}).select('-token').exec(function (err, ads) {
-        self.res.json(ads.map(function (ad) {
-            return ad.toObject();
-        }));
-    });
+    self.res.json(ads.map(function (ad) {
+      return ad.toObject();
+    }));
+  });
 }
 
 AdsController.create = function () {
-    var req = this.req
-    var res = this.res
-    
-    var self = this;
-    // create fake token to trick validation :)
+  var req = this.req
+  var res = this.res
+  var item = new Ad(req.body);
+  var self = this;
+  console.log('saving')
+  // create fake token to trick validation :)
 
     var item = new Ad(req.body);
-    item.token = uuid.v4();        
-    return item.save(function (err, item) {
-        if (err) {
-            res.send({
-                errors: err
-            });
-        }
-        else {
-            // send info email
-            emails.adNewEmail('balwan@balwan.cz', {token: 'token123123'}).then(function (mail) {
-                self.app.mailer.sendMail(mail, function (err, responseStatus) {
-                    if (err) {
-                        console.log('Error sending email: ' + error);
-                        res.send(err)
-                    }
-                    else {
-                        var object = item.toObject();
-                        delete object.token;
-                        return res.send(object);
-                    }
-                });
+  item.token = uuid.v4();
+  return item.save(function (err, item) {
+    if (err) {
+      res.send({
+        errors: err
+      });
+    }
+    else {
+      // send info email
+      emails.adNewEmail(item.toObject()).then(function (mail) {
+        console.log(mail.html);
+        self.app.mailer.sendMail(mail, function (err, responseStatus) {
+          if (err) {
+            console.log('Error sending email: ' + error);
+            res.send(err)
+          }
+          else {
+            var object = item.toObject();
+            delete object.token;
+            return res.send(object);
+          }
+        });
 
-            }, function (err) {
-                console.log('Error generating email: ' + error);
-                res.send(err)
-            });
-        }
-    });   
+      }, function (err) {
+        console.log('Error generating email: ' + error);
+        res.send(err)
+      });
+    }
+  });
     
 
 }

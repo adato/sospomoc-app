@@ -21,21 +21,32 @@ var templatesDir = __dirname + '/../templates';
 var Q = require('q');
 
 
-module.exports.adNewEmail = function (email, item) {
-    var deferred = Q.defer();
-    emailTemplates(templatesDir, function (err, template) {
-        console.log('Generating Ad creating email with this params');
-        if (err) deferred.reject(err); //maybe there should be new Error(error)
+var infoAddress = 'info@sospomoc.cz'
 
-        template('adNewEmail', item, function (err, html, text) {
-            if (err) deferred.reject(err);
-            else {
-                console.log(html);
-                deferred.resolve(html);
-            }
-        });
-    });
-    return deferred.promise;
+module.exports.adNewEmail = function (item) {
+  var deferred = Q.defer();
+  emailTemplates(templatesDir, function (err, template) {
+    console.log('Generating NewAd email');
+    if (err) deferred.reject(err); //maybe there should be new Error(error)
+    else {
+      item.edit_link = 'http://www.sospomoc.cz/#/needs/' + item.token + '/edit';
+      template('adNewEmail', item, function (err, html, text) {
+        if (err) deferred.reject(err);
+        else {
+          //console.log(html);
+          mail = {
+            from: infoAddress,
+            to: item.email,
+            subject: 'Vaše potřeba na SOSpomoc.cz byla založena',
+            html: html,
+            text: text
+          }
+          deferred.resolve(mail);
+        }
+      });
+    }
+  });
+  return deferred.promise;
 }
 /*if err
  callback({send: false, msg: err})
