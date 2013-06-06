@@ -19,88 +19,107 @@ License along with SOS Pomoc application.  If not, see
 <!doctype html>
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang="cs" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="cs"> <!--<![endif]-->
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>SOS Pomoc (Powered by Hearth)</title>
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <link href="http://fonts.googleapis.com/css?family=Signika:300,400&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="styles/7639c4e1.app.css">
+    <link rel="stylesheet" href="styles/d38a869b.app.css">
     <script src="scripts/vendor/692789fe.custom.modernizr.js"></script>
-</head>
-<body ng-app="sosPomocApp">
-<div id="logo"></div>
-<form ng-controller="FilterCtrl" id="filter" class="custom">
-    <div ng-repeat="category in categories">
-        <label ng-click="toggle(category,$event)" class="tag" for="tag-{{ category.value }}">
-            <input type="checkbox" ng-checked="category.checked" id="tag-{{ category.value }}" style="display: none">
-            <span ng-class="{custom:true, checkbox:true, checked:category.checked }"></span> {{ category.name }}
-        </label>
+  </head>
+  <body ng-app="sosPomocApp">
+    <div id="powered-by">
+      <h1>SOS Pomoc</h1>
+      <h2 class="subheader"><a href="http://www.hearth.net/">Powered by Hearth</a></h2>
     </div>
-</form>
-<div ng-controller="MapCtrl" ng-init="initMap()" id="map"></div>
-<div ng-controller="AdCreationCtrl" id="creation">
-      <a ng-click="showForm = !showForm;" class="toggle-form">{{ toggleTitle }}</a>
-      <form ng-show="showForm" class="custom" name="createForm">
-        <fieldset>
-            <legend>Potřebuji pomoct</legend>
-          <div class="row" style="color: green" ng-show="formSent">
-              <div>Odesláno!</div>
-          </div>
-          <div class="row" style="color: red" ng-show="errors.length > 0">
-              <div><ul><li ng-repeat="error in errors">{{ error.msg }}</li></ul></div>
-          </div>
-            <div class="row">
-                <div class="large-6 columns">
-              <input type="text" ng-model="newItem.name" required="" placeholder="Jméno a příjmení">
-                </div>
-                <div class="large-6 columns">
-              <input type="email" ng-model="newItem.email" required="" placeholder="Email">
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                <p ng-show="newItem.location.lat && newItem.location.lon" ng-cloak="">Místo: <span ng-cloak="" ng-show="!newItem.location.name">Vaše aktuální poloha.</span><span ng-cloak="" ng-show="newItem.location.name">{{ newItem.location.name }}</span> <button type="button" class="small button" ng-click="newItem.location = null">Změnit</button></p>
-                <input type="text" id="newLocation" ng-model="newItem.location" placeholder="Místo (napište prvních pár písmen)" ng-show="!newItem.location.lat || !newItem.location.lon" ng-cloak="">
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-              <textarea ng-model="newItem.description" placeholder="Popis" required=""></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <ul class="categories">
-                        <li ng-repeat="category in categories" ng-click="toggle(category)">
-                            <label class="tag" for="tag-new-{{ category.value }}"><input type="checkbox" id="tag-new-{{ category.value }}" ng-checked="category.checked" style="display: none"><span class="custom checkbox"></span> {{ category.name }}</label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-          <div class="row">
-              <button ng-click="submit()">Odeslat</button>
-          </div>
-        </fieldset>
+    <form ng-controller="FilterCtrl" ng-cloak="" id="filter" class="custom">
+      <div ng-repeat="category in categories">
+        <label ng-click="toggle(category, $event)" ng-class="{ tag: true, checked: category.checked }" for="filter-tag-{{ category.value }}">
+          <input type="checkbox" ng-model="category.checked" id="filter-tag-{{ category.value }}" style="display: none">
+          <span ng-class="{ custom: true, checkbox: true, checked: category.checked }"></span>
+          {{ category.name }}
+        </label>
+      </div>
     </form>
-</div>
+    <div ng-controller="MapCtrl" ng-init="initMap()" id="map"></div>
+    <div ng-controller="AdFormCtrl" ng-cloak="" id="create-form">
+      <div class="toggle-form">
+        <a ng-click="open()"><span></span> Potřebuji…</a>
+      </div>
+
+      <form ng-show="showForm" name="create-form" class="custom">
+        <fieldset>
+          <legend>Potřebuji pomoc</legend>
+          <div ng-show="formSent" class="row" style="color: green">
+            <div>Odesláno!</div>
+          </div>
+          <div ng-show="errors.length > 0" class="row" style="color: red">
+            <div>
+              <ul>
+                <li ng-repeat="error in errors">{{ error.msg }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-6 columns">
+              <input type="text" ng-model="newItem.name" required="" placeholder="Jméno a příjmení">
+            </div>
+            <div class="large-6 columns">
+              <input type="email" ng-model="newItem.email" required="" placeholder="Email">
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <p ng-show="newItem.location.lat && newItem.location.lon">Místo:
+                <span ng-show="!newItem.location.name">Vaše aktuální poloha.</span>
+                <span ng-show="newItem.location.name">{{ newItem.location.name }}</span>
+                <button type="button" ng-click="newItem.location = null" class="small button">Změnit</button>
+              </p>
+              <input type="text" ng-model="newItem.location" ng-show="!newItem.location.lat || !newItem.location.lon" id="newLocation" placeholder="Místo (napište prvních pár písmen)">
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <textarea ng-model="newItem.description" placeholder="Popis" required=""></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <ul class="categories">
+                <li ng-repeat="category in newItem.categories" ng-click="toggleCategory($index)" ng-show="!category.checked">
+                  <label class="tag">
+                    <span class="custom checkbox"></span> {{ category.name }}
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <button ng-click="submit()">Odeslat</button>
+          </div>
+          <a ng-click="close()" href="#" class="close">&times;</a>
+        </fieldset>
+      </form>
+    </div>
 
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=false&libraries=places"></script>
-<script src="scripts/vendor/629f68cb.infobox.js"></script>
+    <script src="scripts/vendor/629f68cb.infobox.js"></script>
 
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-cookies.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-sanitize.min.js"></script>
-<script>
-    document.write('__proto__' in {} ?
-            '<script src="scripts/vendor/74560593.zepto.js"><\/script>' :
-            '<script src="scripts/vendor/cd43de1f.jquery.js"><\/script>'
-    );
-</script>
-<script src="scripts/3b05dc85.foundation.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-cookies.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-sanitize.min.js"></script>
 
-<script src="scripts/44847fda.app.js"></script>
-</body>
+    <script>
+      document.write('__proto__' in {} ?
+        '<script src="scripts/vendor/74560593.zepto.js"><\/script>' :
+        '<script src="scripts/vendor/cd43de1f.jquery.js"><\/script>'
+      );
+    </script>
+    <script src="scripts/3b05dc85.foundation.js"></script>
+
+    <script src="scripts/7e1f5033.app.js"></script>
+  </body>
 </html>
