@@ -40,7 +40,7 @@ License along with SOS Pomoc application.  If not, see
                ng-class="{ tag: true, checked: category.checked }"
                for="filter-tag-{{ category.value }}">
           <input type="checkbox"
-                 ng-checked="category.checked"
+                 ng-model="category.checked"
                  id="filter-tag-{{ category.value }}"
                  style="display: none;">
           <span ng-class="{ custom: true, checkbox: true, checked: category.checked }"></span>
@@ -51,7 +51,7 @@ License along with SOS Pomoc application.  If not, see
     <div ng-controller="MapCtrl" ng-init="initMap()" id="map"></div>
     <div ng-controller="AdFormCtrl" ng-cloak id="create-form">
       <div class="toggle-form">
-        <a ng-click="open()" href="#"><span></span> Potřebuji…</a>
+        <a ng-click="open()"><span></span> Potřebuji…</a>
       </div>
 
       <form ng-show="showForm" name="create-form" class="custom">
