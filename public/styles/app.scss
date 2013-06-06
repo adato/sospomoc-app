@@ -16,6 +16,10 @@ License along with SOS Pomoc application.  If not, see
 <http://www.gnu.org/licenses/>.
 */
 
+@import "compass/css3/inline-block";
+@import "compass/layout/stretching";
+@import "compass/reset";
+
 @import "settings";
 @import "normalize";
 @import "foundation";
@@ -55,10 +59,6 @@ License along with SOS Pomoc application.  If not, see
 // @import "foundation/components/thumbs";
 // @import "foundation/components/tooltips";
 // @import "foundation/components/dropdown";
-
-@import "compass/css3/inline-block";
-@import "compass/layout/stretching";
-@import "compass/reset";
 
 html, body, #map {
   width: 100%;

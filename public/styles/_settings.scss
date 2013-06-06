@@ -31,7 +31,7 @@ $default-float: left;
 // $body-bg: #fff;
 // $body-font-color: #222;
 $body-font-family: "Signika", Helvetica, Arial, sans-serif;
-// $body-font-weight: normal;
+$body-font-weight: 300;
 // $body-font-style: normal;
 
 // Font-smoothing
@@ -136,8 +136,8 @@ $secondary-color: #de4300;
 
 // Heading font styles
 
-// $header-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-// $header-font-weight: bold;
+$header-font-family: inherit;
+$header-font-weight: 400;
 // $header-font-style: normal;
 // $header-font-color: #222;
 // $header-line-height: 1.4;
@@ -339,7 +339,7 @@ $button-font-med: emCalc(20px);
 // $button-font-tny: emCalc(11px);
 // $button-font-sml: emCalc(13px);
 // $button-font-lrg: emCalc(20px);
-$button-font-weight: 400;
+$button-font-weight: 300;
 // $button-font-align: center;
 
 // Various hover effects.
