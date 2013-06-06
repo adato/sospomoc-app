@@ -20,6 +20,21 @@ License along with SOS Pomoc application.  If not, see
 
 angular.module('sosPomocApp', ['ngResource'])
 
+  .config(function($routeProvider) {
+    $routeProvider
+      .when('/needs/new', {
+        controller: 'AdFormCtrl',
+        templateUrl: 'views/new.html'
+      })
+      .when('/needs/:id/edit', {
+        controller: 'AdFormCtrl',
+        templateUrl: 'views/edit.html'
+      })
+      .when('/needs/:id', {})
+      .when('/needs', {})
+      .otherwise('/');
+  })
+
   .factory('Ad', function($resource) {
     return $resource('/ads', {}, {
       show: { method: 'GET', isArray: true },
