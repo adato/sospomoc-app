@@ -58,9 +58,8 @@
     <div class="large-12 columns">
       <ul class="categories">
         <li ng-repeat="category in newItem.categories"
-            ng-click="toggleCategory($index)"
-            ng-show="!category.checked">
-          <label class="tag">
+            ng-click="toggleCategory(category)">
+          <label ng-class="{tag:true, checked: category.checked }">
             <span class="custom checkbox"></span> {{ category.name }}
           </label>
         </li>

@@ -171,8 +171,9 @@ angular.module('sosPomocApp')
       }
     }
 
-    $scope.toggleCategory = function(index) {
-      $scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
+    $scope.toggleCategory = function(category) {
+      //$scope.newItem.categories[index].checked = !$scope.newItem.categories[index].checked
+      category.checked = !category.checked;
     }
 
 
