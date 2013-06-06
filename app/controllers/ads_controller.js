@@ -28,7 +28,7 @@ AdsController.index = function () {
     searchObject.categories = { $in: self.req.query.categories.split(',') };
   }
 
-    Ad.find({isDeleted:{'$ne':true}}).select('-token').exec(function (err, ads) {
+  Ad.find({isDeleted: {'$ne': true}}).select('-token').exec(function (err, ads) {
     self.res.json(ads.map(function (ad) {
       return ad.toObject();
     }));
@@ -44,7 +44,7 @@ AdsController.create = function () {
   // create fake token to trick validation :)
 
 
-    var item = new Ad(req.body);
+  var item = new Ad(req.body);
   item.token = uuid.v4();
   return item.save(function (err, item) {
     if (err) {
@@ -55,14 +55,16 @@ AdsController.create = function () {
     else {
       // send info email
       emails.adNewEmail(item.toObject()).then(function (mail) {
-        console.log(mail.html);
+        //console.log(mail.html);
+        console.log("Sending NewAd email to:" + mail.to);
         self.app.mailer.sendMail(mail, function (err, responseStatus) {
           if (err) {
-            console.log('Error sending email: ' + error);
+            console.log('Error sending NewAd email to: ' + mail.to + ' (' + error + ')');
             res.send(err)
           }
           else {
             var object = item.toObject();
+            console.log(object);
             delete object.token;
             return res.send(object);
           }
@@ -74,51 +76,51 @@ AdsController.create = function () {
       });
     }
   });
-    
+
 
 }
 
 AdsController.show = function () {
-    var req = this.req
-    var res = this.res
-    Ad.findOne({token: req.params.id, isDeleted: {'$ne':true}}).exec(function (err, ad) {
-        if(ad) {
-          return res.send(ad)
-        } else {
-            res.send({errors: 'ERR_AD_NOT_FOUND'})
-        }
-    })
+  var req = this.req
+  var res = this.res
+  Ad.findOne({token: req.params.id, isDeleted: {'$ne': true}}).exec(function (err, ad) {
+    if (ad) {
+      return res.send(ad)
+    } else {
+      res.send({errors: 'ERR_AD_NOT_FOUND'})
+    }
+  })
 }
 
 AdsController.update = function () {
-    var req = this.req
-    var res = this.res
-    Ad.findOne({token: req.params.id}).exec(function(err, oldAd) {
-        if(oldAd) {  
-            var newAd = new Ad({
-                location: req.body.location,
-                description: req.body.description,
-                categories: req.body.categories,
-                email: req.body.email,
-                name: req.body.name,
-                updatedAt: Date.now()
-            })
-            var newData = newAd.toObject()
-            delete newData._id
-            return Ad.update({_id: oldAd._id}, newData, {upsert: true}, function (err, item) {
-                if (err) {
-                    res.send({
-                        errors: err
-                    });
-                }
-                else {
-                    return res.send(newAd);
-                }
-            }); 
-        } else {
-            res.send({errors: 'ERR_AD_NOT_FOUND'})
-        }      
-    })
+  var req = this.req
+  var res = this.res
+  Ad.findOne({token: req.params.id}).exec(function (err, oldAd) {
+    if (oldAd) {
+      var newAd = new Ad({
+        location: req.body.location,
+        description: req.body.description,
+        categories: req.body.categories,
+        email: req.body.email,
+        name: req.body.name,
+        updatedAt: Date.now()
+      })
+      var newData = newAd.toObject()
+      delete newData._id
+      return Ad.update({_id: oldAd._id}, newData, {upsert: true}, function (err, item) {
+        if (err) {
+          res.send({
+            errors: err
+          });
+        }
+        else {
+          return res.send(newAd);
+        }
+      });
+    } else {
+      res.send({errors: 'ERR_AD_NOT_FOUND'})
+    }
+  })
 }
 
 AdsController.destroy = function () {
@@ -126,10 +128,10 @@ AdsController.destroy = function () {
   var res = this.res
   return Ad.findOne({
     token: req.params.id
-  }, function(err, ad) {
+  }, function (err, ad) {
     if (ad) {
       ad.isDeleted = true;
-      return ad.save(function(err) {
+      return ad.save(function (err) {
         if (err) {
           return res.send({
             ok: false,

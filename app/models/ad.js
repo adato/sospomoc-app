@@ -17,11 +17,13 @@
  */
 
 var validate = require('mongoose-validator').validate;
+var mongoose = require('mongoose');
 
-var schema = require('mongoose').Schema({
+
+var schema = mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, validate: validate('isEmail')},
-    categories: {type: Array/*, required: true*/},
+    categories: [{type: String, required: true }],
     description: String,
     location: {
         place: {type: String/*, required: true */},
@@ -34,5 +36,10 @@ var schema = require('mongoose').Schema({
     updatedAt: {type: Date},
     contact: {type: String}
 });
+
+schema.path('categories').validate(function (value) {
+  if(value instanceof Array && value.length>0) return true
+  else return false;
+}, 'NO_CATEGORIES');
 
 module.exports = require('mongoose').model('Ad', schema);
