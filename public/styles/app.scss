@@ -61,51 +61,75 @@ License along with SOS Pomoc application.  If not, see
 @import "compass/reset";
 
 html, body, #map {
-  @include stretch;
+  width: 100%;
+  height: 100%;
 }
 
-#powered-by {
-  @include stretch(auto, auto, 0, 62px);
+header {
+  $header-primary-color: #fff;
+  $panel-border-size: 0;
+  $panel-padding: emCalc(10px);
+  $panel-margin-bottom: 0;
+  @include panel;
+  position: relative;
   z-index: 1;
-  padding: 4px 7px;
+  background-image: url(/images/pattern-02.jpg);
+  font-weight: $header-font-weight;
+  border-bottom: 1px solid $header-primary-color;
+
+  h1, h2, p {
+    color: $header-primary-color;
+  }
+
+  a:link, a:visited {
+    color: darken($header-primary-color, 5%);
+  }
+  a:active, a:hover, a:focus {
+    color: darken($header-primary-color, 10%);
+  }
 
   h1 {
-    visibility: hidden;
+    float: left;
+    margin-bottom: 0;
   }
 
   h2 {
     @include reset-box-model;
+    float: right;
+    height: 16px;
+    line-height: 16px;
+  }
+
+  p {
+    text-indent: 0.3em;
   }
 }
 
-#map {
-  display: block;
-
-  //XXX necessary for Google Maps JavaScript API InfoWindow
-  img {
-    max-width: none;
-  }
-}
-
-#filter {
-  @include button-group-container;
+#controls {
   position: relative;
-  z-index: 2;
-  padding: 1em 1em 3em;
-  pointer-events: none;
 
-  .tag {
-    pointer-events: auto;
+  #filter, #show-form {
+    z-index: 2;
   }
-}
 
-#create-form {
+  #filter {
+    @include button-group-container;
+    position: relative;
+    padding: 1em;
+    pointer-events: none;
 
-  form, .toggle-form {
+    .tag {
+      pointer-events: auto;
+    }
+  }
+
+  #form, #show-form {
     @include stretch(1em, 1em, auto, auto);
   }
 
-  .toggle-form {
+  #show-form {
+    position: absolute;
+
     a {
       @include button;
 
@@ -121,35 +145,44 @@ html, body, #map {
     }
   }
 
-  form {
-    @include panel;
+  #form {
+    $form-width: 500px;
+    z-index: 3;
 
-    $creation-width: 500px;
+    .panel {
+      width: $form-width;
 
-    width: $creation-width;
-    margin-left: -$creation-width / 2;
+      .close {
+        @include stretch(3px, 3px, auto, auto);
+        @include alert-close;
+      }
 
-    .close {
-      @include stretch(3px, 3px, auto, auto);
-      @include alert-close;
-    }
+      legend {
+        font-size: $h3-font-size;
+      }
 
-    legend {
-      font-size: $h3-font-size;
-    }
+      .categories {
+        @include button-group-container;
 
-    .categories {
-      @include button-group-container;
-
-      & > li {
-        @include button-group-style;
-        margin-left: 1px;
+        & > li {
+          @include button-group-style;
+          margin-left: 1px;
+        }
       }
     }
   }
 }
 
-#filter, #create-form {
+#map {
+  @include stretch;
+
+  //XXX necessary for Google Maps JavaScript API InfoWindow
+  img {
+    max-width: none;
+  }
+}
+
+#filter, #form {
   .tag {
     @include button;
     @include button-style(#f29b78);

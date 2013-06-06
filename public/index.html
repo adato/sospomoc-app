@@ -30,32 +30,33 @@ License along with SOS Pomoc application.  If not, see
     <script src="scripts/vendor/custom.modernizr.js"></script>
   </head>
   <body ng-app="sosPomocApp">
-    <div id="powered-by">
-      <h1>SOS Pomoc</h1>
-      <h2 class="subheader"><a href="http://www.hearth.net/">Powered by Hearth</a></h2>
-    </div>
-    <form ng-controller="FilterCtrl" ng-cloak id="filter" class="custom">
-      <div ng-repeat="category in categories">
-        <label ng-click="toggle(category, $event)"
-               ng-class="{ tag: true, checked: category.checked }"
-               for="filter-tag-{{ category.value }}">
-          <input type="checkbox"
-                 ng-model="category.checked"
-                 id="filter-tag-{{ category.value }}"
-                 style="display: none;">
-          <span ng-class="{ custom: true, checkbox: true, checked: category.checked }"></span>
-          {{ category.name }}
-        </label>
-      </div>
-    </form>
-    <div ng-controller="MapCtrl" ng-init="initMap()" id="map"></div>
-    <div ng-cloak id="create-form">
-      <div class="toggle-form">
+    <header>
+      <h1><a href="http://www.sospomoc.cz/">SOSPomoc.cz</a></h1>
+      <h2 class="subheader"><a href="http://www.hearth.net/" lang="en">powered by Hearth</a></h2>
+      <p>je mapa lidí zasáhnutých povodní a pro jim pomáhající.</p>
+    </header>
+    <section id="controls">
+      <form ng-controller="FilterCtrl" ng-cloak id="filter" class="custom">
+        <div ng-repeat="category in categories">
+          <label ng-click="toggle(category, $event)"
+                 ng-class="{ tag: true, checked: category.checked }"
+                 for="filter-tag-{{ category.value }}">
+            <input type="checkbox"
+                   ng-model="category.checked"
+                   id="filter-tag-{{ category.value }}"
+                   style="display: none;">
+            <span ng-class="{ custom: true, checkbox: true, checked: category.checked }"></span>
+            {{ category.name }}
+          </label>
+        </div>
+      </form>
+
+      <div id="show-form">
         <a href="#/needs/new"><span></span> Potřebuji…</a>
       </div>
-
-      <ng-view></ng-view>
-    </div>
+      <ng-view id="form"></ng-view>
+    </section>
+    <div ng-controller="MapCtrl" ng-init="initMap()" id="map"></div>
 
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyADfTvyBFxLzyBocNkfh1g4RMGoPYzpowM&sensor=true&libraries=places"></script>
     <script src="scripts/vendor/infobox.js"></script>

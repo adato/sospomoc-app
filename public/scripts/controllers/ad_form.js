@@ -98,10 +98,10 @@ angular.module('sosPomocApp')
       $scope.isTouchDevice = $('html').hasClass('touch')
       $scope.geolocationAvailable = false //default
       $scope.editMode = false
-    $scope.allCategories = adsService.categories.map(function(category) {
+      $scope.allCategories = adsService.categories.map(function(category) {
         category.checked = false;
         return category;
-    });
+      });
       if($routeParams.id) {
           loadAd($routeParams.id)
           $scope.editMode = true

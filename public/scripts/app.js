@@ -32,7 +32,7 @@ angular.module('sosPomocApp', ['ngResource'])
       })
       .when('/needs/:id', {})
       .when('/needs', {})
-      .otherwise('/');
+      .otherwise({ redirectTo: '/needs' });
   })
 
   .factory('Ad', function($resource) {
