@@ -19,6 +19,7 @@
 var AdsController = new (require('locomotive').Controller)();
 var Ad = require('../models/ad');
 var uuid = require('node-uuid');
+var emails = require('../lib/emails');
 
 AdsController.index = function () {
     var self = this;
@@ -38,7 +39,7 @@ AdsController.create = function () {
     var req = this.req
     var res = this.res
     
-    console.log('insert')
+    var self = this;
     // create fake token to trick validation :)
 
     var item = new Ad(req.body);
@@ -51,9 +52,23 @@ AdsController.create = function () {
         }
         else {
             // send info email
-            var object = item.toObject();
-            delete object.token;
-            return res.send(object);
+            emails.adNewEmail('balwan@balwan.cz', {token: 'token123123'}).then(function (mail) {
+                self.app.mailer.sendMail(mail, function (err, responseStatus) {
+                    if (err) {
+                        console.log('Error sending email: ' + error);
+                        res.send(err)
+                    }
+                    else {
+                        var object = item.toObject();
+                        delete object.token;
+                        return res.send(object);
+                    }
+                });
+
+            }, function (err) {
+                console.log('Error generating email: ' + error);
+                res.send(err)
+            });
         }
     });   
     
