@@ -118,19 +118,33 @@ angular.module('sosPomocApp')
 
     var createAd = function() {
         var categoriesBackup = angular.copy($scope.newItem.categories)
-        $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })        
-        Ad.create($scope.newItem, (function(data){
-            if(data.errors) {
-                $scope.errors.push("Odeslání se nezdařilo")
+        $scope.newItem.categories = $scope.newItem.categories.filter(function (el, idx, arr) { return el.checked == true; })      
+        if($scope.editMode) {
+            $scope.newItem.token = $routeParams.id
+            Ad.edit({'id': $routeParams.id}, $scope.newItem, function(data) {
                 $scope.newItem.categories = categoriesBackup
-            }
-            else {
-                $scope.errors = [];
-                $scope.formSent = true;
-                $scope.newItem = {}
-                $scope.newItem.categories = $scope.allCategories
-            }
-        }))
+                if(data.errors) {
+                    $scope.errors.push("Odeslání se nezdařilo")                    
+                }
+                else {
+                    $scope.errors = [];
+                    $scope.formSent = true;
+                }
+            })
+        } else {
+            Ad.create($scope.newItem, (function(data){
+                if(data.errors) {
+                    $scope.errors.push("Odeslání se nezdařilo")
+                    $scope.newItem.categories = categoriesBackup
+                }
+                else {
+                    $scope.errors = [];
+                    $scope.formSent = true;
+                    $scope.newItem = {}
+                    $scope.newItem.categories = $scope.allCategories
+                }
+            }))
+        }
     }
 
     $scope.submit = function() {

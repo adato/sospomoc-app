@@ -37,10 +37,12 @@ AdsController.index = function () {
 AdsController.create = function () {
     var req = this.req
     var res = this.res
-    var item = new Ad(req.body);
-    console.log('saving')
+    
+    console.log('insert')
     // create fake token to trick validation :)
-    item.token = uuid.v4();
+
+    var item = new Ad(req.body);
+    item.token = uuid.v4();        
     return item.save(function (err, item) {
         if (err) {
             res.send({
@@ -49,12 +51,13 @@ AdsController.create = function () {
         }
         else {
             // send info email
-            
             var object = item.toObject();
             delete object.token;
             return res.send(object);
         }
-    });
+    });   
+    
+
 }
 
 AdsController.show = function () {
@@ -70,8 +73,34 @@ AdsController.show = function () {
 }
 
 AdsController.update = function () {
-    var self = this;
-    self.res.send(501)
+    var req = this.req
+    var res = this.res
+    Ad.findOne({token: req.params.id}).exec(function(err, oldAd) {
+        if(oldAd) {  
+            var newAd = new Ad({
+                location: req.body.location,
+                description: req.body.description,
+                categories: req.body.categories,
+                email: req.body.email,
+                name: req.body.name,
+                updatedAt: Date.now()
+            })
+            var newData = newAd.toObject()
+            delete newData._id
+            return Ad.update({_id: oldAd._id}, newData, {upsert: true}, function (err, item) {
+                if (err) {
+                    res.send({
+                        errors: err
+                    });
+                }
+                else {
+                    return res.send(newAd);
+                }
+            }); 
+        } else {
+            res.send({errors: 'ERR_AD_NOT_FOUND'})
+        }      
+    })
 }
 
 AdsController.destroy = function () {

@@ -29,7 +29,9 @@ var schema = require('mongoose').Schema({
         lat: {type: Number, required: true }
     },
     token: {type: String, required: true },
-    isDeleted: {type: Boolean, 'default': false}
+    isDeleted: {type: Boolean, 'default': false},
+    createdAt: {type: Date, 'default': Date.now()},
+    updatedAt: {type: Date}
 });
 
 module.exports = require('mongoose').model('Ad', schema);
